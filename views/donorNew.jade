@@ -1,16 +1,65 @@
 h2 Add New Donor
 form(method="post")
 	p
+		label Name
 		input(type="text", name="[name]", value=donor.name)
 		- if (donor.errors.name)
 		p.error= donor.errors.name
 	p
-		input(type="text", name="[name]", value=donor.name)
-		- if (donor.errors.name)
-		p.error= donor.errors.name
+		label E-Mail
+		input(type="text", name="[email]", value=donor.email)
+		- if (donor.errors.email)
+		p.error= donor.errors.email
+	p
+		label Birthday
+		input(type="text", name="[birthday]", value=donor.birthday)
+		- if (donor.errors.birthday)
+		p.error= donor.errors.birthday
+
+	p
+		label Street
+		input(type="text", name="[street]", value=donor.street)
+		- if (donor.errors.street)
+		p.error= donor.errors.street
+
+	p
+		label Town
+		input(type="text", name="[town]", value=donor.town)
+		- if (donor.errors.town)
+		p.error= donor.errors.town
+
+	p
+		label Zip-Code
+		input(type="text", name="[zipcode]", value=donor.zipcode)
+		- if (donor.errors.zipcode)
+		p.error= donor.errors.zipcode
+	p
+		label Country
+		input(type="text", name="[country]", value=donor.country)
+		- if (donor.errors.country)
+		p.error= donor.errors.country
+
+	p
+		label Personal Interests
+		textarea(name="[personalInterests]", value=donor.personalInterests)
+		- if (donor.errors.personalInterests)
+		p.error= donor.errors.personalInterests
+
+	p
+		label Phone
+		input(type="text", name="[telephone]", value=donor.telephone)
+		- if (donor.errors.telephone)
+		p.error= donor.errors.telephone
+
+	p
+		label Website
+		input(type="text", name="[website]", value=donor.website)
+		- if (donor.errors.website)
+		p.error= donor.errors.website
 
 	p.buttons
 		- if (donor.isNew)
 			input(type="submit", value="Save")
 		- else
 			input(type="submit", value="Update")
+

@@ -8,25 +8,26 @@ database.Group.find({}).remove();
 database.User.find({}).remove();
 database.DonationRequest.find({}).remove();
 
+
 // Add donors
 var donor1 = new database.Donor();
 donor1.name = "Joe van Dyk";
 donor1.email = "joe@anywhere.com";
-donor1.address = "150 Eros Street, Pretoria";
+donor1.street = "150 Eros Street, Pretoria";
 donor1.website = "joevandyk.com";
 donor1.save();
 
 var donor2 = new database.Donor();
 donor2.name = "Harry Smith";
 donor2.email = "harry@greendesigns.co.za";
-donor2.address = "257 Smith Street, Johannesburg";
+donor2.street = "257 Smith Street, Johannesburg";
 donor2.website = "greendesigns.co.za";
 donor2.save();
 
 var donor3 = new database.Donor();
 donor3.name = "Barry Goldwing";
 donor3.email = "barry@goldwinginc.com";
-donor3.address = "45 Rutgers Street, Pretoria";
+donor3.street = "45 Rutgers Street, Pretoria";
 donor3.website = "goldwinginc.com";
 donor3.save();
 
@@ -36,7 +37,7 @@ user1.name = "Joe White";
 user1.username = "exampleUser";
 user1.password = "secret";
 user1.email = "joe@anywhere.com";
-user1.address = "150 Eros Street, Pretoria";
+user1.street = "150 Eros Street, Pretoria";
 user1.website = "mySite.com";
 user1.save();
 
