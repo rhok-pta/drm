@@ -16,7 +16,7 @@ exports.addRoutes = function(app,database) {
 			else if (!request)
 				res.send("Could not find request: " + req.params.id);
 			else	
-				res.render("requests/new", {request: request});
+				res.render("requests/show", {request: request});
 		});
 	});
 
@@ -63,7 +63,7 @@ exports.addRoutes = function(app,database) {
 			else if (!group)
 				res.send("Could not find group: " + req.params.id);
 			else	
-				res.render("groups/new", {group: group});
+				res.render("groups/show", {group: group});
 		});
 	});
 
