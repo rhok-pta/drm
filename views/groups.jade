@@ -1,1 +1,5 @@
-p Groups
+h2.title Groups
+ul.list
+	- for group in groups
+		li
+			a(href='/groups/'+group._id)= group.name

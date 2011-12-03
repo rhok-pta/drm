@@ -50,7 +50,7 @@ function createBrowserSession (callback) {
 					callback.failure();
 				}else {
 					setBrowserSession(id);
-					openStartPage(browser, callback);
+					callback(browser);
 				}
 			});
 	} catch(e){
@@ -62,7 +62,7 @@ exports.createBrowserSession = createBrowserSession;
 function openStartPage(callback){
 	getBrowser(function(browser){
 		browser.open('/', getBrowserSession(), function(){
-				checkPresenceOfElement("body", callback );
+			checkPresenceOfElement("//body", callback );
 		});
 	});
 }
@@ -96,6 +96,7 @@ function checkPresenceOfElement(selector,callback) {
 						throw "ERROR wait for selector: " + selector					
 						callback.failure();
 					}else {
+						console.dir(callback)
 						callback();
 					}
 				});
