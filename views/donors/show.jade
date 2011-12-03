@@ -1,14 +1,43 @@
-h2.title= donor.name
-ul.details
-	li
-		.name E-mail
-		.value= donor.email
-	li
-		.name Address
-		.value= donor.address
-	li
-		.name Website
-		.value= donor.website
+h2.title=donor.name
+.submenu
+	ul
+		li.edit
+			a(href="/donors/edit/" + donor._id) Edit
+		li.remove
+			a.confirm(href="/donors/remove/" + donor._id) Remove
+p
+	label Name
+	span=donor.name
+p
+	label E-Mail
+	span=donor.email
+p
+	label Birthday
+	span=donor.birthday
+p
+	label Street
+	span=donor.street
+p
+	label Town
+	span=donor.town
+p
+	label Zip-Code
+	span=donor.zipcode
+p
+	label Country
+	span=donor.country
+
+p
+	label Personal Interests
+	span=donor.personalInterests
+p
+	label Phone
+	span=donor.telephone
+p
+	label Website
+	span=donor.website
+
+
 ul.list
 	- for post in donor.communicationLog
 		li= post.message

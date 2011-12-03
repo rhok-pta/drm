@@ -11,7 +11,7 @@ form(method="post", id="donor-model-form")
 		- if (donor.errors.email)
 		p.error= donor.errors.email
 	p
-		label Birthday
+		label Birthday (MM/DD/YY)
 		input(type="text", name="donor[birthday]", value=donor.birthday)
 		- if (donor.errors.birthday)
 		p.error= donor.errors.birthday
