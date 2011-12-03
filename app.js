@@ -4,7 +4,7 @@ var MemoryStore = express.session.MemoryStore;
 var database = require('./database.js');
 
 // Configuration
-var config = {port: 8080};
+var config = {port: process.env.PORT || 8080};
 
 //
 var app = express.createServer();
