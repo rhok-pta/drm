@@ -38,25 +38,25 @@ exports.addRoutes = function(app,database) {
         });
     });
 
-	app.get('/donors/new', function(req, res) {
-		var donor = {};
-		donor.errors = [];
-		res.render("donorNew", {donor : donor });
-	});
-	app.post('/donors/new', function(req, res) {
-		var dataOfDonor=req.body.donor;
-		//toDo attach current User
-		var donor = new database.Donor(dataOfDonor);
-		console.dir(donor);
-		donor.save(function(err){
-			if(err){
-				dataOfDonor.errors = err.errors;
-				res.render("donorNew", {donor : req.body.donor});
-			}else {
-				res.redirect("/donors/" + donor._id);					
-			}
-		});			
-	});
+  app.get('/donors/new', function(req, res) {
+    var donor = {};
+    donor.errors = [];
+    res.render("donorNew", {donor : donor });
+  });
+  app.post('/donors/new', function(req, res) {
+    var dataOfDonor=req.body.donor;
+    //toDo attach current User
+    var donor = new database.Donor(dataOfDonor);
+    console.dir(donor);
+    donor.save(function(err){
+      if(err){
+        dataOfDonor.errors = err.errors;
+        res.render("donorNew", {donor : req.body.donor});
+      }else {
+        res.redirect("/donors/" + donor._id);         
+      }
+    });     
+  });
 
     app.get('/donors/:id', function(req, res) {
         database.Donor.findOne({_id: req.params.id}).populate('communicationLog').run(function(err, donor) {
