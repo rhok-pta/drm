@@ -36,7 +36,7 @@ var DonorSchema = new Schema({
 	donationDates : [Date],
 	conversationFlow : [ObjectId], // FIXME: Check me
 	remarks: [RemarkSchema],
-	user: ObjectId
+	user: {type: Schema.ObjectId, ref: 'User'}
 });
 exports.DonorSchema = DonorSchema;
 
@@ -52,20 +52,20 @@ exports.GroupSchema = GroupSchema;
 var DonationSchema = new Schema({
 	amount : Number,
 	date : Date,
-	donar : ObjectId, // DonorSchema
+	donor : {type: Schema.ObjectId, ref: 'Donor'}, // DonorSchema
 	remark : ObjectId, // RemarkSchema
-	user : ObjectId // UserSchema
+	user : {type: Schema.ObjectId, ref: 'User'} // UserSchema
 });
 exports.DonationSchema = DonationSchema;
 
 var DonationRequestSchema = new Schema({
 	name : String,
-	donors : [DonorSchema],
-	groups : [GroupSchema],
+	donors : [{type: Schema.ObjectId, ref: 'Donor'}],
+	groups : [{type: Schema.ObjectId, ref: 'Group'}],
 	message : String, // TODO: Handle pictures etc.
  	sentDate : Date,
  	subject : String,
- 	user : ObjectId // UserSchema
+ 	user : {type: Schema.ObjectId, ref: 'User'} // UserSchema
 });
 exports.DonationRequestSchema = DonationRequestSchema;
 
