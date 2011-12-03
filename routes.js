@@ -26,6 +26,17 @@ exports.addRoutes = function(app,database) {
 		});
 	});
 
+	app.get('/donors/new', function(req, res) {
+		var donor = new database.Donor();
+		res.render("donorNew", {donor : donor});
+	});
+	app.post('/donors/new', function(req, res) {
+		var donor = database.Donor(req.body.donor);
+		console.dir(donor);	
+		res.render("donorNew", {donor : donor});
+	});
+
+
 	app.get('/donors/:id', function(req, res) {
 		database.Donor.findOne({_id: req.params.id}, function(err, donor) {
 			if (err)

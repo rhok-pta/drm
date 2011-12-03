@@ -2,19 +2,24 @@
 html(lang='en')
 	head
 		title Donor Management System
-		link(type='text/css', href='/css/main.css', rel='stylesheet')
+		link(type='text/css', href='/css/style.css', rel='stylesheet')
 	body
-		h1 Donor Management System
-		nav
-			ul
-				li
-					a(href='/') Dashboard
-				li
-					a(href='/requests') Requests
-				li
-					a(href='/donors') Donors
-				li
-					a(href='/groups') Groups
-				li
-					a(href='/settings') Settings					
+		#logo		
+			h1 
+				a(href'#') Donor Management System
+			p
+				em Description
+		#header		
+			#menu
+				ul
+					li.first
+						a(href='/') Dashboard
+					li
+						a(href='/donors') Donors
+					li
+						a(href='/requests') Requests
+					li
+						a(href='/groups') Groups
+					li
+						a(href='/settings') Settings					
 		#content!= body
