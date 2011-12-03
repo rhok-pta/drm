@@ -74,9 +74,9 @@ var DonationRequestSchema = new Schema({
   donors : [{type: ObjectId, ref: 'donors'}],
   groups : [{type: ObjectId, ref: 'groups'}],
   message : String, // TODO: Handle pictures etc.
-  sentDate : Date,
-  subject : String,
-  user : {type: ObjectId, ref: 'users'} // UserSchema
+   sentDate : Date,
+   subject : String,
+   user : {type: ObjectId, ref: 'users'} // UserSchema
 });
 exports.DonationRequestSchema = DonationRequestSchema;
 
