@@ -1,14 +1,14 @@
 h2.title= donor.name
 ul.details
-	li
-		.name E-mail
-		.value= donor.email
-	li
-		.name Address
-		.value= donor.address
-	li
-		.name Website
-		.value= donor.website
+  li
+    .name E-mail
+    .value= donor.email
+  li
+    .name Address
+    .value= donor.address
+  li
+    .name Website
+    .value= donor.website
 ul.list
-	- for post in donor.communicationLog
-		li= post.message
+  - for post in donor.communicationLog
+    li= post.message

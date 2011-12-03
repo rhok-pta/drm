@@ -1,11 +1,11 @@
 .submenu
-	ul.submenu
-		li.add
-			a(href='/donors/new') Add Donor
-	
+  ul.submenu
+    li.add
+      a(href='/donors/new') Add Donor
+  
 
 h2.title Donors
 ul.list
-	- for donor in donors
-		li
-			a(href='/donors/'+donor._id)= donor.name	
+  - for donor in donors
+    li
+      a(href='/donors/'+donor._id)= donor.name  
