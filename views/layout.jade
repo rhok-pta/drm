@@ -1,34 +1,34 @@
 !!! 5
 html(lang='en')
-	head
-		title Donor Management System
-		link(type='text/css', href='/css/style.css', rel='stylesheet')
-		script(type='text/javascript', src='/javascript/jquery-1.7.1.min.js') 
-		script(type='text/javascript', src='/javascript/jquery.livequery.js') 
-		script(type='text/javascript', src='/javascript/scripts.js') 
-	body
-		#logo		
-			h1 
-				a(href'#') Donor Management System
-			p
-				em Description
-		#header		
-			#menu
-				ul
-					li.first
-						a(href='/') Dashboard
-					li
-						a(href='/donors') Donors
-					li
-						a(href='/requests') Requests
-					li
-						a(href='/groups') Groups
-					li
-						a(href='/settings') Settings					
-		#page
-			- if (typeof info !=="undefined")
-				.info= info
-			- if (typeof error !== "undefined")
-				.error= error
-			#content!= body
-				
+  head
+    title Donor Management System
+    link(type='text/css', href='/css/style.css', rel='stylesheet')
+    script(type='text/javascript', src='/javascript/jquery-1.7.1.min.js') 
+    script(type='text/javascript', src='/javascript/jquery.livequery.js') 
+    script(type='text/javascript', src='/javascript/scripts.js') 
+  body
+    #logo    
+      h1 
+        a(href'#') Donor Management System
+      p
+        em Description
+    #header    
+      #menu
+        ul
+          li.first
+            a(href='/') Dashboard
+          li
+            a(href='/donors') Donors
+          li
+            a(href='/requests') Requests
+          li
+            a(href='/groups') Groups
+          li
+            a(href='/settings') Settings          
+    #page
+      - if (typeof info !=="undefined")
+        .info= info
+      - if (typeof error !== "undefined")
+        .error= error
+      #content!= body
+        

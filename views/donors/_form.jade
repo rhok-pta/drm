@@ -1,20 +1,20 @@
 h2 Add New Donor
 form(method="post", id="donor-model-form")
-	p
-		label Name
-		input(type="text", name="donor[name]", value=donor.name)
-		- if (donor.errors.name)
-		p.error= donor.errors.name
-	p
-		label E-Mail
-		input(type="text", name="donor[email]", value=donor.email)
-		- if (donor.errors.email)
-		p.error= donor.errors.email
-	p
-		label Birthday (MM/DD/YY)
-		input(type="text", name="donor[birthday]", value=donor.birthday)
-		- if (donor.errors.birthday)
-		p.error= donor.errors.birthday
+  p
+    label Name
+    input(type="text", name="donor[name]", value=donor.name)
+    - if (donor.errors.name)
+    p.error= donor.errors.name
+  p
+    label E-Mail
+    input(type="text", name="donor[email]", value=donor.email)
+    - if (donor.errors.email)
+    p.error= donor.errors.email
+  p
+    label Birthday (MM/DD/YY)
+    input(type="text", name="donor[birthday]", value=donor.birthday)
+    - if (donor.errors.birthday)
+    p.error= donor.errors.birthday
 
   p
     label Street
