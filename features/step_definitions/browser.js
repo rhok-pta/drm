@@ -59,12 +59,17 @@ function createBrowserSession (callback) {
 }
 exports.createBrowserSession = createBrowserSession;
 
-function openStartPage(callback){
+function openPage(url, callback){
 	getBrowser(function(browser){
-		browser.open('/', getBrowserSession(), function(){
+		browser.open(url, getBrowserSession(), function(){
 			checkPresenceOfElement("//body", callback );
 		});
 	});
+}
+exports.openPage = openPage;
+
+function openStartPage(callback){
+	openPage("/", callback);
 }
 exports.openStartPage = openStartPage;
 
