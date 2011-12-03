@@ -1,0 +1,16 @@
+h2 Add New Donor
+form(method="post")
+	p
+		input(type="text", name="[name]", value=donor.name)
+		- if (donor.errors.name)
+		p.error= donor.errors.name
+	p
+		input(type="text", name="[name]", value=donor.name)
+		- if (donor.errors.name)
+		p.error= donor.errors.name
+
+	p.buttons
+		- if (donor.isNew)
+			input(type="submit", value="Save")
+		- else
+			input(type="submit", value="Update")
