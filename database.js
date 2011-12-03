@@ -43,10 +43,10 @@ var DonorSchema = new Schema({
 exports.DonorSchema = DonorSchema;
 
 var GroupSchema = new Schema({
-	user : ObjectId,
+	user : {type: Schema.ObjectId, ref: 'User'},
 	name : String,
 	description : String,
-	donors : [DonorSchema],
+	donors : [{type: Schema.ObjectId, ref: 'Donor'}],
 	rules : String // TODO: Create some format for rules
 });
 exports.GroupSchema = GroupSchema;
@@ -76,3 +76,4 @@ _.extend(DonorSchema, PersonSchema);
 exports.Donor = mongoose.model('donors', DonorSchema);
 exports.User = mongoose.model('users', UserSchema);
 exports.Group = mongoose.model('groups', GroupSchema);
+exports.DonationRequest = mongoose.model('requests', DonationRequestSchema);
