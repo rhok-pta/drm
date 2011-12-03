@@ -16,5 +16,6 @@ results
 
 node_modules
 npm-debug.log
+.monitor
 
 /bin/selenium-standalone.jar
