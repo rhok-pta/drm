@@ -35,8 +35,11 @@ var PostSchema = new Schema({
 var DonorSchema = new Schema({
 	name : String,
 	email: String,
-	company : ObjectId,
-	address : String, // FIXME: Possible separate object
+	company : String,
+	street : String, 
+	town : String, 	
+	zipcode : String, 	
+	country : String, 	
 	personalInterests : String,
 	telephone : String,
 	birthday : Date,
