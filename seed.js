@@ -18,6 +18,14 @@ user1.address = "150 Eros Street, Pretoria";
 user1.website = "mySite.com";
 user1.save();
 
+// A Post
+var post1 = new database.Post()
+post1.date = new Date();
+post1.name = "some name";
+post1.user = user1;
+post1.medium = "email";
+post1.message = "my message";
+post1.save();
 
 // Add donors
 var donor1 = new database.Donor();
@@ -25,13 +33,7 @@ donor1.name = "Joe van Dyk";
 donor1.email = "joe@anywhere.com";
 donor1.street = "150 Eros Street, Pretoria";
 donor1.website = "joevandyk.com";
-donor1.communicationLog = [ new database.Post({
-        date : new Date(),
-        name : "some name",
-        user : user1,
-        medium : "email",
-        message : "my message"
-})];
+donor1.communicationLog = [post1];
 donor1.save();
 
 var donor2 = new database.Donor();
