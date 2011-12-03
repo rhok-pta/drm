@@ -5,7 +5,7 @@ var steps = function() {
 	  callback();
 	});
 	
-	this.Given(/^I'm logged in as (*.)$/, function(role,callback) {
+	this.Given(/^I'm logged in as (.*)$/, function(role ,callback) {
 		switch(role){
 			case 'an user': 
 				browser.openStartPage(function(){
