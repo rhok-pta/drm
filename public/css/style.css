@@ -235,7 +235,7 @@ hr { display: none; }
 
 #content {
 	float: left;
-	width: 620px;
+	width: 100%;
 }
 
 /* Post */
@@ -482,4 +482,56 @@ label {
 	display:inline-block;
 	width:100px;
 	font-weight:bold;
+}
+div.submenu {
+	display:block;
+	float:right;
+	width:140px;
+	padding:10px;
+	background: #e98c2d;
+	color: white;
+	font-weight:bold;
+}
+div.submenu ul {
+	margin:0px;
+	padding:0px;
+}
+div.submenu a{
+	color: white !important;
+}
+div.submenu ul li {
+	margin-bottom:10px;
+	line-height:30px;
+	padding-left: 35px;
+	list-style:none;
+
+}
+li.edit {
+	background:url('../images/compose.png') no-repeat;
+}
+li.remove {
+	background:url('../images/delete.png') no-repeat;
+}
+li.add {
+	background:url('../images/add_.png') no-repeat;
+}
+
+
+table.display tr.odd {
+    background-color: #d2cfba;
+}
+table.display tr.even {
+    background-color: #9d9885;
+}
+
+table.display tr.odd td.sorting_1 {
+	background-color: #ffddba;
+}
+
+table.display tr.even td.sorting_1{
+	background-color: #ffba75;
+}
+table.display  a {
+	font-weight:bold;
+	color:#573D26;
 }

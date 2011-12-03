@@ -4,3 +4,7 @@ $('a.confirm').livequery('click', function(event) {
 	else 
 		return confirm("Are you sure?");
 });
+
+$(document).ready(function() {
+    $('table').dataTable();
+} );

@@ -5,7 +5,32 @@ exports.addRoutes = function(app,database) {
 
   app.get('/requests', function(req, res) {
     database.DonationRequest.find({}, function(err, requests) {
-      res.render("requests/index", {requests: requests, currentCategory: "requests"});
+    requests.forEach(function(request){
+      if(request.sentDate == null || request.sentDate > Date.now() ){
+        request.sent = "No"  ;
+      }else {
+        request.sent = "Yes";
+      }
+      var receiver = [];
+      request.groups.forEach(function(grp){        
+        console.dir(grp);
+        database.Group.find({_id:grp}).each(function(err, donorId){
+          console.log("donorId");
+          console.dir(donorId);
+          var found = false;
+          receiver.forEach(function(d){
+            if(d==donorId){
+              found = true;
+              return true;
+            }
+          });
+          if (!found)
+            receiver.push(donorId);
+        });
+      });      
+      request.amountOfReceiver = receiver.length;
+    });
+    res.render("requests/index", {requests: requests, currentCategory: "requests"});
     });
   });
 

@@ -5,7 +5,25 @@
   
 
 h2.title Donors
-ul.list
+
+table.display
+  thead
+    tr
+      th
+        span Name
+      th
+        span Company
+      th
+        span E-Mail
+      th
+        span Telephone
   - for donor in donors
-    li
-      a(href='/donors/'+donor._id)= donor.name  
+    tr
+      td
+        a(href='/donors/'+donor._id)= donor.name  
+      td
+        a(href='/donors/'+donor._id)= donor.company  
+      td
+        a(href='/donors/'+donor._id)= donor.email  
+      td
+        a(href='/donors/'+donor._id)= donor.telephone  

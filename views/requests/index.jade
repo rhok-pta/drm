@@ -2,4 +2,26 @@ h2.title Requests
 ul.list
   - for request in requests
     li
-      a(href='/requests/'+request._id)= request.name  
+      a(href=')= request.name  
+      
+table.display
+  thead
+    tr
+      th
+        span Name
+      th
+        span Company
+      th
+        span E-Mail
+      th
+        span Telephone
+    - for request in requests
+      tr
+        td
+          a(href='/requests/'+request._id)= request.name  
+        td
+          a(href='/requests/'+request._id)= request.subject  
+        td
+          a(href='/requests/'+request._id)= request.sent  
+        td
+          a(href='/requests/'+request._id)= request.amountOfReceiver
