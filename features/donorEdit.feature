@@ -1,2 +1,1 @@
-Feature:
-    Users should be able to edit donors.
+Feature: Users should be able to edit donors.

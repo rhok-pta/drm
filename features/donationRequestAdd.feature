@@ -1,6 +1,10 @@
-feature:
-    A User should be able to send a message to a donor.
+Feature: A User should be able to add Donation Requests.
+
+    Scenario: Users should be able to create new Donation Requests.
     
-    Scenario: Sending a donation request to a single user
+    Scenario: Users should be able to store a donation request.
     
-    Scenario: Sending a donation request to multiple users and groups
+    Scenario: Users should be edit stored a donation request.
+    
+    Scenario: Users should be edit stored a donation request.
+    
