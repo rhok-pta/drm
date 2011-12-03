@@ -24,7 +24,7 @@ var RemarkSchema = new Schema({
 });
 exports.RemarkSchema = RemarkSchema;
 
-var ConversationSchema = new Schema({
+var PostSchema = new Schema({
 	date : Date,
 	name : String,
 	user : {type: ObjectId, ref: 'users'},
@@ -42,7 +42,7 @@ var DonorSchema = new Schema({
 	birthday : Date,
 	website : String,
 	donationDates : [Date], // TODO: Allow for ranges
-	conversationFlow : [{type: ObjectId, ref: 'conversations'}],
+	communicationLog : [{type: ObjectId, ref: 'posts'}],
 	remarks: [{type: ObjectId, ref: 'remarks'}],
 	user: {type: ObjectId, ref: 'users'}
 });
@@ -78,7 +78,7 @@ var DonationRequestSchema = new Schema({
 exports.DonationRequestSchema = DonationRequestSchema;
 
 exports.Remark = mongoose.model('remarks', RemarkSchema);
-exports.Conversation = mongoose.model('conversations', ConversationSchema);
+exports.Post = mongoose.model('posts', PostSchema);
 exports.Donor = mongoose.model('donors', DonorSchema);
 exports.User = mongoose.model('users', UserSchema);
 exports.Group = mongoose.model('groups', GroupSchema);
