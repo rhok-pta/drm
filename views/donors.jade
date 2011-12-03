@@ -1,4 +1,5 @@
-p Donors
-ul
-- for donor in donors
-	li= donor.name	
+h2.title Donors
+ul.list
+	- for donor in donors
+		li
+			a(href='/donors/'+donor._id)= donor.name	
