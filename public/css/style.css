@@ -475,3 +475,11 @@ hr { display: none; }
 #footer a {
 	color: #573D26;
 }
+
+/* changes for DRM*/
+
+label {
+	display:inline-block;
+	width:100px;
+	font-weight:bold;
+}
