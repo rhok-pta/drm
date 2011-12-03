@@ -1,4 +1,4 @@
-exports.addRoutes = function(app) {
+exports.addRoutes = function(app,database) {
 	app.get('/', function(req, res) {
 		res.render("index");
 	});

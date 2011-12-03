@@ -30,6 +30,17 @@ donor3.address = "45 Rutgers Street, Pretoria";
 donor3.website = "goldwinginc.com";
 donor3.save();
 
+// Add users
+var user1 = new database.User();
+user1.name = "Joe White";
+user1.username = "exampleUser";
+user1.password = "secret";
+user1.email = "joe@anywhere.com";
+user1.address = "150 Eros Street, Pretoria";
+user1.website = "mySite.com";
+user1.save();
+
+
 // Add groups
 var group1 = new database.Group();
 group1.name = "Pretoria";
@@ -61,6 +72,8 @@ request2.message = "Would you be so kind as to donate to our cause";
 request2.sendDate = new Date();
 request2.subject = "Help the children";
 request2.save();
+
+
 
 console.log("Database seeded");
 
