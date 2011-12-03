@@ -27,12 +27,12 @@ exports.addRoutes = function(app,database) {
 	});
 
 	app.get('/donors/:id', function(req, res) {
-		database.Donor.findOne({_id: req.params.id}, function(err, donor) {
+		database.Donor.findOne({_id: req.params.id}).populate('communicationLog').run(function(err, donor) {
 			if (err)
 				throw err
 			else if (!donor)
 				res.send("Could not find donor: " + req.params.id);
-			else	
+			else
 				res.render("donor", {donor: donor});
 		});
 	});

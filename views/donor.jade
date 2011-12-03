@@ -9,3 +9,6 @@ ul.details
 	li
 		.name Website
 		.value= donor.website
+ul.list
+	- for post in donor.communicationLog
+		li= post.message
