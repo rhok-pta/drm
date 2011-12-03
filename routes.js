@@ -27,19 +27,29 @@ exports.addRoutes = function(app,database) {
 	});
 
 	app.get('/donors/new', function(req, res) {
-		var donor = new database.Donor();
+		var donor = {};
 		donor.errors = [];
-		res.render("donorNew", {donor : donor});
+		res.render("donorNew", {donor : donor });
 	});
+
 	app.post('/donors/new', function(req, res) {
-		debugger;
-		var donor = database.Donor(req.body.donor);
-		console.dir(donor);	
-		res.render("donorNew", {donor : donor});
+		var dataOfDonor=req.body.donor;
+		//toDo attach current User
+		var donor = new database.Donor(dataOfDonor);
+		console.dir(donor);
+		donor.save(function(err){
+			if(err){
+				dataOfDonor.errors = err.errors;
+				res.render("donorNew", {donor : req.body.donor});
+			}else {
+				res.redirect("/donors/" + donor._id);					
+			}
+		});			
 	});
 
 
 	app.get('/donors/:id', function(req, res) {
+		console.log("show donor");
 		database.Donor.findOne({_id: req.params.id}, function(err, donor) {
 			if (err)
 				throw err
