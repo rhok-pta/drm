@@ -5,7 +5,7 @@ exports.addRoutes = function(app,database) {
 
 	app.get('/requests', function(req, res) {
 		database.DonationRequest.find({}, function(err, requests) {
-			res.render("requests", {requests: requests});
+			res.render("requests/index", {requests: requests});
 		});
 	});
 
@@ -16,7 +16,7 @@ exports.addRoutes = function(app,database) {
 			else if (!request)
 				res.send("Could not find request: " + req.params.id);
 			else	
-				res.render("request", {request: request});
+				res.render("requests/show", {request: request});
 		});
 	});
 
@@ -33,6 +33,7 @@ exports.addRoutes = function(app,database) {
 	});
 	
 	app.post('/donors/new', function(req, res) {
+		debugger;
 		var donor = database.Donor(req.body.donor);
 		console.dir(donor);	
 		res.render("donorNew", {donor : donor});
@@ -51,7 +52,7 @@ exports.addRoutes = function(app,database) {
 
 	app.get('/groups', function(req, res) {
 		database.Group.find({}, function(err, groups) {
-			res.render("groups", {groups: groups});
+			res.render("groups/index", {groups: groups});
 		});
 	});
 
@@ -62,7 +63,7 @@ exports.addRoutes = function(app,database) {
 			else if (!group)
 				res.send("Could not find group: " + req.params.id);
 			else	
-				res.render("group", {group: group});
+				res.render("groups/show", {group: group});
 		});
 	});
 
