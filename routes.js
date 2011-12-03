@@ -22,24 +22,23 @@ exports.addRoutes = function(app,database) {
 
 	app.get('/donors', function(req, res) {
 		database.Donor.find({}, function(err, donors) {
-			res.render("donors", {donors: donors});
+			res.render("donors/index", {donors: donors});
 		});
 	});
 
 	app.get('/donors/new', function(req, res) {
 		var donor = {};
 		donor.errors = [];
-		res.render("donorNew", {donor : donor });
+		res.render("donors/new", {donor : donor });
 	});
 	app.post('/donors/new', function(req, res) {
 		var dataOfDonor=req.body.donor;
 		//toDo attach current User
 		var donor = new database.Donor(dataOfDonor);
-		console.dir(donor);
 		donor.save(function(err){
 			if(err){
 				dataOfDonor.errors = err.errors;
-				res.render("donorNew", {donor : req.body.donor});
+				res.render("donors/new", {donor : req.body.donor});
 			}else {
 				res.redirect("/donors/" + donor._id);					
 			}
@@ -53,7 +52,7 @@ exports.addRoutes = function(app,database) {
 			else if (!donor)
 				res.send("Could not find donor: " + req.params.id);
 			else
-				res.render("donor", {donor: donor});
+				res.render("donors/show", {donor: donor});
 		});
 	});
 
