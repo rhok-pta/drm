@@ -14,17 +14,43 @@ html(lang='en')
         em Description
     #header    
       #menu
-        ul
-          li.first
-            a(href='/') Dashboard
-          li
-            a(href='/donors') Donors
-          li
-            a(href='/requests') Requests
-          li
-            a(href='/groups') Groups
-          li
-            a(href='/settings') Settings          
+        ul(class=currentCategory)
+          - if(currentCategory == "dashboard")
+            li.first.current_page_item
+              a(href='/') Dashboard
+          - else
+            li.first
+              a(href='/') Dashboard            
+
+          - if(currentCategory == "donors")
+            li.current_page_item
+              a(href='/donors') Donors
+          - else
+            li
+              a(href='/donors') Donors
+            
+          - if(currentCategory == "requests")
+            li.current_page_item
+              a(href='/requests') Requests
+          - else
+            li
+              a(href='/requests') Requests
+
+          - if(currentCategory == "groups")
+            li.current_page_item
+              a(href='/groups') Groups              
+          - else
+            li
+              a(href='/groups') Groups
+
+          - if(currentCategory == "settings")
+            li.current_page_item
+              a(href='/settings') Settings  
+          - else
+            li
+              a(href='/settings') Settings  
+                  
+      
     #page
       - if (typeof info !=="undefined")
         .info= info

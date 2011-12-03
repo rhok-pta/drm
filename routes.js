@@ -1,11 +1,11 @@
 exports.addRoutes = function(app,database) {
   app.get('/', function(req, res) {
-    res.render("index");
+    res.render("index", { currentCategory: "dashboard"});
   });
 
   app.get('/requests', function(req, res) {
     database.DonationRequest.find({}, function(err, requests) {
-      res.render("requests/index", {requests: requests});
+      res.render("requests/index", {requests: requests, currentCategory: "requests"});
     });
   });
 
@@ -16,20 +16,20 @@ exports.addRoutes = function(app,database) {
       else if (!request)
         res.send("Could not find request: " + req.params.id);
       else  
-        res.render("requests/show", {request: request});
+        res.render("requests/show", {request: request, currentCategory: "requests"});
     });
   });
 
   app.get('/donors', function(req, res) {
     database.Donor.find({}, function(err, donors) {
-      res.render("donors/index", {donors: donors});
+      res.render("donors/index", {donors: donors, currentCategory: "donors"});
     });
   });
 
   app.get('/donors/new', function(req, res) {
     var donor = {};
     donor.errors = [];
-    res.render("donors/_form", {donor : donor });
+    res.render("donors/_form", {donor : donor, currentCategory: "donors" });
   });
   
   app.post('/donors/new', function(req, res) {
@@ -39,7 +39,7 @@ exports.addRoutes = function(app,database) {
     donor.save(function(err){
       if(err){
         dataOfDonor.errors = err.errors;
-        res.render("donors/_form", {donor : req.body.donor});
+        res.render("donors/_form", {donor : req.body.donor, currentCategory: "donors"});
       }else {
         res.redirect("/donors/" + donor._id);         
       }
@@ -69,7 +69,7 @@ exports.addRoutes = function(app,database) {
               }
               req.flash('info', 'tests');
               console.dir(err);
-              res.render("donors/_form", {donor : dataOfDonor});
+              res.render("donors/_form", {donor : dataOfDonor, currentCategory: "donors"});
             }else {
               res.redirect("/donors/" + donor._id);
             }
@@ -86,7 +86,7 @@ exports.addRoutes = function(app,database) {
         res.send("Could not find donor: " + req.params.id);
       else{
         donor.errors = [];
-        res.render("donors/_form", {donor : donor});
+        res.render("donors/_form", {donor : donor, currentCategory: "donors"});
       }
     });       
   });
@@ -112,13 +112,13 @@ exports.addRoutes = function(app,database) {
       else if (!donor)
         res.send("Could not find donor: " + req.params.id);
       else
-        res.render("donors/show", {donor: donor});
+        res.render("donors/show", {donor: donor, currentCategory: "donors"});
     });
   });
 
   app.get('/groups', function(req, res) {
     database.Group.find({}, function(err, groups) {
-      res.render("groups/index", {groups: groups});
+      res.render("groups/index", {groups: groups, currentCategory: "groups"});
     });
   });
 
@@ -129,11 +129,11 @@ exports.addRoutes = function(app,database) {
       else if (!group)
         res.send("Could not find group: " + req.params.id);
       else  
-        res.render("groups/show", {group: group});
+        res.render("groups/show", {group: group, currentCategory: "groups"});
     });
   });
 
   app.get('/settings', function(req, res) {
-    res.render("settings");
+    res.render("settings",{currentCategory: "donors"});
   });
 };
