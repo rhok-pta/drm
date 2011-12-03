@@ -17,28 +17,7 @@ app.configure(function(){
 	app.use(app.router);
 });
 
-// Routing
-app.get('/', function(req, res) {
-	res.render("index");
-});
-
-app.get('/requests', function(req, res) {
-	res.render("requests");
-});
-
-app.get('/donors', function(req, res) {
-	database.Donor.find({}, function(err, donors) {
-		res.render("donors", {donors: donors});
-	});
-});
-
-app.get('/groups', function(req, res) {
-	res.render("groups");
-});
-
-app.get('/settings', function(req, res) {
-	res.render("settings");
-});
+var routes = require('./routes.js').addRoutes(app);
 
 console.log("Running on port: " + config.port);
 app.listen(config.port);
