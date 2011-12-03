@@ -33,8 +33,8 @@ var PostSchema = new Schema({
 });
 
 var DonorSchema = new Schema({
-	name : String,
-	email: String,
+	name : { type: String, required: true },
+	email: { type: String, required: false },
 	company : String,
 	street : String, 
 	town : String, 	
