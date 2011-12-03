@@ -1,4 +1,4 @@
-var _ = require('underscore')
+var _ = require('underscore');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema, 
 	ObjectId = Schema.ObjectId;
@@ -9,16 +9,12 @@ exports.disconnect = function() {
 	mongoose.disconnect();
 }
 
-var PersonSchema = new Schema({
-	name : String,
-	email: String
-});
-
 var UserSchema = new Schema({
+	name : String,
+	email: String,
 	username : String,
-	password: String
+	password: String,
 });
-_.extend(UserSchema, PersonSchema);
 exports.UserSchema = UserSchema;
 
 var RemarkSchema = new Schema({
@@ -29,6 +25,8 @@ var RemarkSchema = new Schema({
 exports.RemarkSchema = RemarkSchema;
 
 var DonorSchema = new Schema({
+	name : String,
+	email: String,
 	company : ObjectId,
 	address : String, // FIXME: Possible separate object
 	personalInterests : String,
@@ -71,7 +69,6 @@ var DonationRequestSchema = new Schema({
 });
 exports.DonationRequestSchema = DonationRequestSchema;
 
-_.extend(DonorSchema, PersonSchema);
 
 exports.Donor = mongoose.model('donors', DonorSchema);
 exports.User = mongoose.model('users', UserSchema);
