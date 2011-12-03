@@ -1,0 +1,15 @@
+nav ul {
+	list-style: none;
+	padding: 0;
+	overflow: hidden;
+}
+
+nav ul li {
+	float: left;
+	padding: 0.5em;
+	border-left: thin solid black;
+}
+
+nav ul li:first-child {
+	border-left: none;
+}

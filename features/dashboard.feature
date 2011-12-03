@@ -1,0 +1,1 @@
+Feature: A User should see a Dashboard with reminder, notifications and shortcuts.

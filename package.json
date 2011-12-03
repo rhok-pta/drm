@@ -1,0 +1,36 @@
+{ "name" : "DMS"
+, "description" : "Web application to help charities or ngo to contact potential donors and stay in touch with them."
+, "keywords" : [ "DRM" ]
+, "version" : "0.0.1"
+, "homepage" : "https://github.com/rhok-pta/Donor-Management-System-for-Charities---Node.js"
+, "authors" : [
+    "Divan Burger <divan.burger@gmail.com>",
+    "Donovan Isherwood <donovan.isherwood@gmail.com>",
+    "Sebastian Woinar <sebastian.woinar@gmail.com>"
+    ]
+, "repository" :
+  { "type" : "git"
+  , "url" : "github.com:rhok-pta/Donor-Management-System-for-Charities---Node.js.git"
+  }
+, "dependencies" :
+  { "link" : "0.3.3"
+  , "soda" : "0.2.4 "
+  , "connect" : "1.8.1"
+  , "express" : "2.5.1"
+  , "gherkin" : "2.6.8"
+   , "jasmine-node" : "1.0.13"
+   , "browserify" : "1.8.1"
+   , "nopt" : "1.0.10"
+   , "underscore" : "1.2.2"
+   , "underscore.string" : "2.0.0"
+   , "rimraf" : "1.0.8"
+   , "mkdirp" : "0.2.1"
+   , "cucumber-html": "0.2.0"
+   , "findit": "0.1.1"
+   , "coffee-script": "1.1.2"
+   }
+ ,"licenses" :[{
+      "type" : "MIT"
+    , "url" : "https://github.com/rhok-pta/Donor-Management-System-for-Charities---Node.js/blob/master/LICENSE"
+    }]
+}
