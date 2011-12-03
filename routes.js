@@ -32,6 +32,7 @@ exports.addRoutes = function(app,database) {
 		res.render("donorNew", {donor : donor});
 	});
 	app.post('/donors/new', function(req, res) {
+		debugger;
 		var donor = database.Donor(req.body.donor);
 		console.dir(donor);	
 		res.render("donorNew", {donor : donor});

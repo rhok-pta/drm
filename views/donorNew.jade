@@ -1,59 +1,59 @@
 h2 Add New Donor
-form(method="post")
+form(method="post", id="donor-model-form")
 	p
 		label Name
-		input(type="text", name="[name]", value=donor.name)
+		input(type="text", name="donor[name]", value=donor.name)
 		- if (donor.errors.name)
 		p.error= donor.errors.name
 	p
 		label E-Mail
-		input(type="text", name="[email]", value=donor.email)
+		input(type="text", name="donor[email]", value=donor.email)
 		- if (donor.errors.email)
 		p.error= donor.errors.email
 	p
 		label Birthday
-		input(type="text", name="[birthday]", value=donor.birthday)
+		input(type="text", name="donor[birthday]", value=donor.birthday)
 		- if (donor.errors.birthday)
 		p.error= donor.errors.birthday
 
 	p
 		label Street
-		input(type="text", name="[street]", value=donor.street)
+		input(type="text", name="donor[street]", value=donor.street)
 		- if (donor.errors.street)
 		p.error= donor.errors.street
 
 	p
 		label Town
-		input(type="text", name="[town]", value=donor.town)
+		input(type="text", name="donor[town]", value=donor.town)
 		- if (donor.errors.town)
 		p.error= donor.errors.town
 
 	p
 		label Zip-Code
-		input(type="text", name="[zipcode]", value=donor.zipcode)
+		input(type="text", name="donor[zipcode]", value=donor.zipcode)
 		- if (donor.errors.zipcode)
 		p.error= donor.errors.zipcode
 	p
 		label Country
-		input(type="text", name="[country]", value=donor.country)
+		input(type="text", name="donor[country]", value=donor.country)
 		- if (donor.errors.country)
 		p.error= donor.errors.country
 
 	p
 		label Personal Interests
-		textarea(name="[personalInterests]", value=donor.personalInterests)
+		textarea(name="donor[personalInterests]", value=donor.personalInterests)
 		- if (donor.errors.personalInterests)
 		p.error= donor.errors.personalInterests
 
 	p
 		label Phone
-		input(type="text", name="[telephone]", value=donor.telephone)
+		input(type="text", name="donor[telephone]", value=donor.telephone)
 		- if (donor.errors.telephone)
 		p.error= donor.errors.telephone
 
 	p
 		label Website
-		input(type="text", name="[website]", value=donor.website)
+		input(type="text", name="donor[website]", value=donor.website)
 		- if (donor.errors.website)
 		p.error= donor.errors.website
 
