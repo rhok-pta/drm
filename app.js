@@ -29,8 +29,13 @@ app.get('/requests', function(req, res) {
 });
 
 app.get('/requests/:id', function(req, res) {
-	database.DonationRequest.findOne({_id: req.params.id}, function(err, request) {
-		res.render("request", {request: request});
+	database.DonationRequest.findOne({_id: req.params.id}).populate('donors').populate('groups').run(function(err, request) {
+		if (err)
+			throw err
+		else if (!request)
+			res.send("Could not find request: " + req.params.id);
+		else	
+			res.render("request", {request: request});
 	});
 });
 
@@ -42,7 +47,12 @@ app.get('/donors', function(req, res) {
 
 app.get('/donors/:id', function(req, res) {
 	database.Donor.findOne({_id: req.params.id}, function(err, donor) {
-		res.render("donor", {donor: donor});
+		if (err)
+			throw err
+		else if (!donor)
+			res.send("Could not find donor: " + req.params.id);
+		else	
+			res.render("donor", {donor: donor});
 	});
 });
 
@@ -53,8 +63,13 @@ app.get('/groups', function(req, res) {
 });
 
 app.get('/groups/:id', function(req, res) {
-	database.Group.findOne({_id: req.params.id}).populate('user').run(function(err, group) {
-		res.render("group", {group: group});
+	database.Group.findOne({_id: req.params.id}).populate('donors').run(function(err, group) {
+		if (err)
+			throw err
+		else if (!group)
+			res.send("Could not find group: " + req.params.id);
+		else	
+			res.render("group", {group: group});
 	});
 });
 

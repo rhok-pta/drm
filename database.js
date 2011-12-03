@@ -36,15 +36,15 @@ var DonorSchema = new Schema({
 	donationDates : [Date],
 	conversationFlow : [ObjectId], // FIXME: Check me
 	remarks: [RemarkSchema],
-	user: {type: Schema.ObjectId, ref: 'User'}
+	user: {type: Schema.ObjectId, ref: 'users'}
 });
 exports.DonorSchema = DonorSchema;
 
 var GroupSchema = new Schema({
-	user : {type: Schema.ObjectId, ref: 'User'},
+	user : {type: Schema.ObjectId, ref: 'users'},
 	name : String,
 	description : String,
-	donors : [{type: Schema.ObjectId, ref: 'Donor'}],
+	donors : [{type: Schema.ObjectId, ref: 'donors'}],
 	rules : String // TODO: Create some format for rules
 });
 exports.GroupSchema = GroupSchema;
@@ -52,20 +52,20 @@ exports.GroupSchema = GroupSchema;
 var DonationSchema = new Schema({
 	amount : Number,
 	date : Date,
-	donor : {type: Schema.ObjectId, ref: 'Donor'}, // DonorSchema
+	donor : {type: Schema.ObjectId, ref: 'donors'}, // DonorSchema
 	remark : ObjectId, // RemarkSchema
-	user : {type: Schema.ObjectId, ref: 'User'} // UserSchema
+	user : {type: Schema.ObjectId, ref: 'users'} // UserSchema
 });
 exports.DonationSchema = DonationSchema;
 
 var DonationRequestSchema = new Schema({
 	name : String,
-	donors : [{type: Schema.ObjectId, ref: 'Donor'}],
-	groups : [{type: Schema.ObjectId, ref: 'Group'}],
+	donors : [{type: Schema.ObjectId, ref: 'donors'}],
+	groups : [{type: Schema.ObjectId, ref: 'groups'}],
 	message : String, // TODO: Handle pictures etc.
  	sentDate : Date,
  	subject : String,
- 	user : {type: Schema.ObjectId, ref: 'User'} // UserSchema
+ 	user : {type: Schema.ObjectId, ref: 'users'} // UserSchema
 });
 exports.DonationRequestSchema = DonationRequestSchema;
 
