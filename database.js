@@ -20,9 +20,17 @@ exports.UserSchema = UserSchema;
 var RemarkSchema = new Schema({
 	text : String,
 	date : Date,
-	user : ObjectId
+	user : {type: ObjectId, ref: 'users'}
 });
 exports.RemarkSchema = RemarkSchema;
+
+var ConversationSchema = new Schema({
+	date : Date,
+	name : String,
+	user : {type: ObjectId, ref: 'users'},
+	medium : String,
+	message : String
+});
 
 var DonorSchema = new Schema({
 	name : String,
@@ -33,18 +41,18 @@ var DonorSchema = new Schema({
 	telephone : String,
 	birthday : Date,
 	website : String,
-	donationDates : [Date],
-	conversationFlow : [ObjectId], // FIXME: Check me
-	remarks: [RemarkSchema],
-	user: {type: Schema.ObjectId, ref: 'users'}
+	donationDates : [Date], // TODO: Allow for ranges
+	conversationFlow : [{type: ObjectId, ref: 'conversations'}],
+	remarks: [{type: ObjectId, ref: 'remarks'}],
+	user: {type: ObjectId, ref: 'users'}
 });
 exports.DonorSchema = DonorSchema;
 
 var GroupSchema = new Schema({
-	user : {type: Schema.ObjectId, ref: 'users'},
+	user : {type: ObjectId, ref: 'users'},
 	name : String,
 	description : String,
-	donors : [{type: Schema.ObjectId, ref: 'donors'}],
+	donors : [{type: ObjectId, ref: 'donors'}],
 	rules : String // TODO: Create some format for rules
 });
 exports.GroupSchema = GroupSchema;
@@ -52,24 +60,25 @@ exports.GroupSchema = GroupSchema;
 var DonationSchema = new Schema({
 	amount : Number,
 	date : Date,
-	donor : {type: Schema.ObjectId, ref: 'donors'}, // DonorSchema
-	remark : ObjectId, // RemarkSchema
-	user : {type: Schema.ObjectId, ref: 'users'} // UserSchema
+	donor : {type: ObjectId, ref: 'donors'}, // DonorSchema
+	remark : {type: ObjectId, ref: 'remarks'}, // RemarkSchema
+	user : {type: ObjectId, ref: 'users'} // UserSchema
 });
 exports.DonationSchema = DonationSchema;
 
 var DonationRequestSchema = new Schema({
 	name : String,
-	donors : [{type: Schema.ObjectId, ref: 'donors'}],
-	groups : [{type: Schema.ObjectId, ref: 'groups'}],
+	donors : [{type: ObjectId, ref: 'donors'}],
+	groups : [{type: ObjectId, ref: 'groups'}],
 	message : String, // TODO: Handle pictures etc.
  	sentDate : Date,
  	subject : String,
- 	user : {type: Schema.ObjectId, ref: 'users'} // UserSchema
+ 	user : {type: ObjectId, ref: 'users'} // UserSchema
 });
 exports.DonationRequestSchema = DonationRequestSchema;
 
-
+exports.Remark = mongoose.model('remarks', RemarkSchema);
+exports.Conversation = mongoose.model('conversations', ConversationSchema);
 exports.Donor = mongoose.model('donors', DonorSchema);
 exports.User = mongoose.model('users', UserSchema);
 exports.Group = mongoose.model('groups', GroupSchema);
