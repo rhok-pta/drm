@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema, 
 	ObjectId = Schema.ObjectId;
 
-mongoose.connect('mongodb://localhost/donorManagementSystem');
+mongoose.connect( process.env.MONGOHQ_URL || 'mongodb://localhost/donorManagementSystem');
 
 exports.disconnect = function() {
 	mongoose.disconnect();
