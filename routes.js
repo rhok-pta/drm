@@ -15,21 +15,7 @@ exports.addRoutes = function(app,database) {
     });
   };
   
-  var findAllActiveRemarks = function(id, callBack){
-    database.Donor.findOne({_id:id}, function(err, res){
-      if(res){
-        callBack(res);
-      }else {
-        database.Group.findOne({_id:id}, function(err, res){
-          if(res){
-            callBack(res);
-          }else{
-            throw "Error: could not find target";
-          }
-        });
-      }
-    });
-  };
+ 
   
   
   

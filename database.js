@@ -23,6 +23,7 @@ var RemarkSchema = new Schema({
   name : String,
   text : String,
   date : Date,
+  target : {type: ObjectId},
   user : {type: ObjectId, ref: 'users'}
 });
 exports.RemarkSchema = RemarkSchema;
