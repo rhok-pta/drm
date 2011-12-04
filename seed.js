@@ -27,13 +27,21 @@ post1.medium = "email";
 post1.message = "my message";
 post1.save();
 
+var post2 = new database.Post()
+post2.date = new Date();
+post2.name = "some name number 2";
+post2.user = user1;
+post2.medium = "telephone";
+post2.message = "another message";
+post2.save();
+
 // Add donors
 var donor1 = new database.Donor();
 donor1.name = "Joe van Dyk";
 donor1.email = "joe@anywhere.com";
 donor1.street = "150 Eros Street, Pretoria";
 donor1.website = "joevandyk.com";
-donor1.communicationLog = [post1];
+donor1.communicationLog = [post1,post2];
 donor1.save();
 
 var donor2 = new database.Donor();

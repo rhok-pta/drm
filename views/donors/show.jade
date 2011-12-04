@@ -37,7 +37,4 @@ p
   label Website
   span=donor.website
 
-
-ul.list
-  - for post in donor.communicationLog
-    li= post.message
+#posts!= partial('posts/show', donor.communicationLog)
