@@ -9,3 +9,22 @@
       
 p Dashboard
   
+  
+table.display
+  thead
+    tr
+      th
+        span Name
+      th
+        span Date
+      th
+        span Attached to
+
+  - for remark in remarks
+    tr
+      td
+        a(href='/remarks/'+remark._id)= remark.name
+      td
+        a(href='/remarks/'+remark._id)= remark.date
+      td
+        a(href='/remarks/'+remark._id)= remark.target

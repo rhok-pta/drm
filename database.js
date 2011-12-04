@@ -51,7 +51,8 @@ var DonorSchema = new Schema({
   donationDates : [Date], // TODO: Allow for ranges
   communicationLog : [{type: ObjectId, ref: 'posts'}],
   remarks: [{type: ObjectId, ref: 'remarks'}],
-  user: {type: ObjectId, ref: 'users'}
+  user: {type: ObjectId, ref: 'users'},
+  isDonor : {type:Boolean, default:true}
 });
 exports.DonorSchema = DonorSchema;
 
@@ -61,7 +62,8 @@ var GroupSchema = new Schema({
   description : String,
   donors : [{type: ObjectId, ref: 'donors'}],
   remarks: [{type: ObjectId, ref: 'remarks'}],
-  rules : String // TODO: Create some format for rules
+  rules : String, // TODO: Create some format for rules
+  isDonor : {type:Boolean, default:false} // to check
 });
 exports.GroupSchema = GroupSchema;
 

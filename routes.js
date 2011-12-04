@@ -20,7 +20,9 @@ exports.addRoutes = function(app,database) {
   
   
   app.get('/', function(req, res) {
-    res.render("dashboard/index", { currentCategory: "dashboard"});
+    database.Remark.find({active:true}, function(err, remarks){
+      res.render("dashboard/index", { currentCategory: "dashboard", remarks: remarks});
+    });
   });
 
   app.get('/requests', function(req, res) {
@@ -172,7 +174,7 @@ exports.addRoutes = function(app,database) {
       else if (!donor)
         res.send("Could not find donor: " + req.params.id);
       else
-        res.render("donors/show", {donor: donor, currentCategory: "donors"});
+        res.render("donors/show", {donor: donor, currentCategory: "donors", activeRemark: {}});
     });
   });
 
@@ -200,19 +202,34 @@ exports.addRoutes = function(app,database) {
       });
     });
   });
+  
+  app.get('/remarks/:id', function(req, res) {
+    database.Remark.findOne({_id : req.params.id}, function(err, remark){
+      findDonorOrGroupsFor(remark.target, function(target){
+        if(target.isDonor){
+          res.render("donors/show", {donor: target, currentCategory: "donors", activeRemark:remark._id});
+        }else {
+          res.render("groups/show", {group: target, currentCategory: "groups", activeRemark:remark._id});
+        }
+      });      
+    });
+  });  
   app.post('/remarks/new', function(req, res) {
     var data = req.body.remark;
     findDonorOrGroupsFor(data.target, function(target){
       var reminder = new database.Remark(data);
-      target.remarks.push(reminder);      
-      target.save(function(err, result){
-        if (err){
-          var reminderData = req.body.reminder;
-          reminderData.errors = err;
-          res.render("remarks/_form", {remark: reminderData, currentCategory: "remind", donors : donors, groups : groups }); 
-        }else {
-          res.redirect("/");
-        }
+      reminder.target = target;
+      reminder.save(function(err){
+        target.remarks.push(reminder);      
+        target.save(function(err, result){
+          if (err){
+            var reminderData = req.body.reminder;
+            reminderData.errors = err;
+            res.render("remarks/_form", {remark: reminderData, currentCategory: "remind", donors : donors, groups : groups }); 
+          }else {
+            res.redirect("/");
+          }
+        });        
       });
     });
   });

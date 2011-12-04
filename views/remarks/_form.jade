@@ -1,0 +1,35 @@
+- if (typeof remark._id !== undefined)
+  h2 Create a new Reminder
+- else
+  h2 Update Reminder: 
+    span= remark.name
+form(method="post", id="remark-model-form")
+  p
+    label Name
+    input(type="text", name="remark[name]", value=remark.name)
+  p 
+    label Attach to
+    select(name="remark[target]", value=remark.target)
+      - for donor in donors
+        option(value=donor._id) 
+          span.type Donor: 
+          span.name= donor.name
+          span.company= donor.company
+      - for grp in groups
+        option(value=grp._id) 
+          span.type Group: 
+          span.name= grp.name
+
+  p
+    label Date
+    input(type="text", id="datepicker", name="remark[date]", value=remark.description)
+                  
+  p
+    label Remarks
+    textarea(name="remark[description]", value=remark.description)
+      
+  p.buttons
+    - if (typeof remark._id !== undefined)
+      input(type="submit", value="Save")
+    - else
+      input(type="submit", value="Update")      
