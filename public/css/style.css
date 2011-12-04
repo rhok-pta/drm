@@ -553,3 +553,6 @@ p.buttons input{
 .dataTables_wrapper select, .dataTables_wrapper input{
   width:80px;
 }
+#postForm {
+  display:none;
+}
