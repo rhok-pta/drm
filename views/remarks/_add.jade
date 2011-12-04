@@ -1,0 +1,26 @@
+- if(typeof donor !== "undefined")
+  - var url = "/donors/addRemark/" + donor._id
+- else if(typeof group !== "undefined")
+  - var url = "/groups/addRemark/" + group._id
+
+
+
+#addReminder
+  ul
+    li.add
+      a.unHide(href="reminderForm") Add a Reminder
+
+#reminderForm
+  form(method="post", id="donor-model-form", action=url)
+    p
+      label Name
+      input(type="text", name="remark[name]", value=remark.name)
+    p
+      label Date
+      input(type="text", id="datepicker", name="remark[date]", value=remark.description)
+    p
+      label Remarks
+      textarea(name="remark[description]", value=remark.description)
+
+    p.buttons
+      input(type="submit", value="Save")
