@@ -163,6 +163,8 @@ exports.addRoutes = function(app,database) {
     var id = req.params.id;
     var post = new database.Post(req.body.post);
     post.user = req.session.user;
+    if(post.date == null)
+      post.date = new Date();
     database.Donor.findOne({_id: id}, function(err, donor) {
       post.save(function(err,result){
         if(result){
@@ -180,6 +182,9 @@ exports.addRoutes = function(app,database) {
     var id = req.params.id;
     var post = new database.Post(req.body.post);
     post.user = req.session.user;
+
+    if(post.date == null)
+      post.date = new Date();
     database.Group.findOne({_id: id}, function(err, group) {
 
       post.save(function(err,result){
