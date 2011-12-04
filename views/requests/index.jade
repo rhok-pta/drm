@@ -1,27 +1,28 @@
 h2.title Requests
-ul.list
-  - for request in requests
-    li
-      a(href=')= request.name  
-      
+
+.submenu
+  ul.submenu
+    li.add
+      a(href='/requests/new') Add Request
+            
 table.display
   thead
     tr
       th
         span Name
       th
-        span Company
+        span Subject
       th
-        span E-Mail
+        span Already sent
       th
-        span Telephone
-    - for request in requests
-      tr
-        td
-          a(href='/requests/'+request._id)= request.name  
-        td
-          a(href='/requests/'+request._id)= request.subject  
-        td
-          a(href='/requests/'+request._id)= request.sent  
-        td
-          a(href='/requests/'+request._id)= request.amountOfReceiver
+        span Number of targets
+  - for request in requests
+    tr
+      td
+        a(href='/requests/'+request._id)= request.name  
+      td
+        a(href='/requests/'+request._id)= request.subject  
+      td
+        a(href='/requests/'+request._id)= request.sent  
+      td
+        a(href='/requests/'+request._id)= request.numberOfTargets

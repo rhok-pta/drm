@@ -1,0 +1,15 @@
+h2.title=user.name
+.submenu
+  ul
+    li.edit
+      a(href="/users/edit/" + user._id) Edit
+
+p
+  label Username
+  span=user.username
+p
+  label Name
+  span=user.name
+p
+  label E-Mail
+  span=user.email
