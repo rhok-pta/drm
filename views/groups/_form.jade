@@ -14,7 +14,14 @@ form(method="post", id="group-model-form")
     label Donors
     select(multiple="multiple", name="group[donors]")
       - for donor in donors
-        option(value=donor._id)= donor.name
+        - var has = false
+        - for groupDonor in group.donors
+          - if (String(groupDonor._id) == String(donor._id))
+            - has = true
+        - if (has)
+          option(value=donor._id, selected="selected")= donor.name
+        else
+          option(value=donor._id)= donor.name
     - if (group.errors.donors)
       p.error= group.errors.donors
   p.buttons
