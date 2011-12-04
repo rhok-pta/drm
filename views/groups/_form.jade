@@ -11,9 +11,12 @@ form(method="post", id="group-model-form")
     - if (group.errors.description)
       p.error= group.errors.description
   p
-    select
-      option Test 1
-      option Test 2
+    label Donors
+    select(multiple="multiple", name="group[donors]")
+      - for donor in donors
+        option(value=donor._id)= donor.name
+    - if (group.errors.donors)
+      p.error= group.errors.donors
   p.buttons
     - if (group.isNew)
       input(type="submit", value="Save")
