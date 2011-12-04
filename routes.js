@@ -145,6 +145,81 @@ exports.addRoutes = function(app,database) {
     });
   });
 
+  app.get('/groups/new', andRestrictToUser, function(req, res) {
+    group = {};
+    group.errors = [];
+    group.isNew = true;
+    database.Donor.find({}, function(err, donors) {
+      res.render("groups/_form", {group: group, currentCategory: "groups", donors : donors});
+    });
+  });
+
+  app.post('/groups/new', andRestrictToUser, function(req, res) {
+    var groupData=req.body.group;
+    var group = new database.Group(groupData);
+    group.user = req.session.user;
+    group.save(function(err) {
+      if (err) {
+        groupData.errors = err.errors;
+        res.render("groups/_form", {group : req.body.group, currentCategory: "group"});
+      } else {
+        res.redirect("/groups/" + group._id);
+      }
+    });     
+  });
+
+  app.get('/groups/edit/:id', andRestrictToUser, function(req, res) {
+    database.Group.findOne({_id: req.params.id}).populate('donors').run(function(err, group) {
+      if (err)
+        throw err
+      else if (!group)
+        res.send("Could not find group: " + req.params.id);
+      else {
+        group.errors = [];
+        res.render("groups/_form", {group : group, currentCategory: "groups"});
+      }
+    });       
+  });
+
+  app.post('/groups/edit/:id', andRestrictToUser, function(req, res) {
+    var groupData = req.body.group;
+
+    database.Group.findOne({_id: req.params.id}).run(function(err, group) {
+        var index;
+        if (err)
+          throw err
+        else if (!group) {
+          res.send("Could not find group: " + req.params.id);
+        } else{
+          for (index in groupData)
+            group[index] = groupData[index];
+            
+          group.save(function(err) {
+            if (err) {
+              groupData.errors = err.errors;
+              res.render("groups/_form", {group : groupData, currentCategory: "groups"});
+            } else {
+              res.redirect("/groups/" + group._id);
+            }
+          });
+        }
+    });
+  });
+  
+  app.get('/groups/remove/:id', andRestrictToUser, function(req, res) {
+    database.Group.findOne({_id: req.params.id}).run(function(err, group) {
+      if (err)
+        throw err
+      else if (!group)
+        res.send("Could not find group: " + req.params.id);
+      else{
+        group.remove(function() {
+          res.redirect("/groups");  
+        });
+      }
+    });       
+  });
+
   app.get('/groups/:id', andRestrictToUser, function(req, res) {
     if(req.params.id == null)
       res.send("No valid id");    

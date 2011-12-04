@@ -10,7 +10,8 @@ p
   span=group.description
 p
   label Owner
-  span=group.user.name
+  - if (group.user)
+    span=group.user.name
   
 h3 Donors
 table.display!= partial('donors/donor', group.donors)

@@ -1,0 +1,21 @@
+h2 Create new group
+form(method="post", id="group-model-form")
+  p
+    label Name
+    input(type="text", name="group[name]", value=group.name)
+    - if (group.errors.name)
+      p.error= group.errors.name
+  p
+    label Description
+    input(type="text", name="group[description]", value=group.description)
+    - if (group.errors.description)
+      p.error= group.errors.description
+  p
+    select
+      option Test 1
+      option Test 2
+  p.buttons
+    - if (group.isNew)
+      input(type="submit", value="Save")
+    - else
+      input(type="submit", value="Update")
