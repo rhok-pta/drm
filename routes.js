@@ -527,4 +527,8 @@ exports.addRoutes = function(app,database) {
     req.session.user = null;
     res.redirect("/login");
   });
+  
+  app.get('*', function(req, res) {
+    res.render("404", {currentCategory: "none"});
+  });
 };
