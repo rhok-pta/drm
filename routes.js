@@ -23,44 +23,6 @@ exports.addRoutes = function(app,database) {
       next();
   }
   
-  var calculateExtendedAttributesOfRequests = function(requests, callback) {
-    var resultingRequests = [];
-    for(var reqIndex = 0; reqIndex < requests.length; reqIndex++) {
-      var request = requests[reqIndex];
-      
-      if(request.sentDate == null || request.sentDate > Date.now() ){
-        request.sent = "No"  ;
-      }else {
-        request.sent = "Yes";
-      }
-      
-      var receiver = request.donors;
-      
-      console.log("we do have a group");
-      request.groups.forEach(function(err, grp){
-        if(grp.donors != null) {
-          grp.donors.forEach(function(donorId){
-              var found = false;
-              receiver.forEach(function(d){
-                if(d==donorId){
-                  console.log("gefunden");
-                  found = true;
-                  return true; 
-                }
-              });
-              if (found == false){
-                receiver.push(donorId);
-              }
-          });
-        }        
-      });      
-      request.amountOrReceiver = receiver.length;      
-      resultingRequests.push(request);
-    }
-    console.dir(resultingRequests);
-    callback(resultingRequests);
-  }
-  
   
   app.get('/', andRestrictToUser, function(req, res) {
     database.Remark.find({active:true}, function(err, remarks){
@@ -68,27 +30,7 @@ exports.addRoutes = function(app,database) {
     });
   });
 
-  app.get('/requests', andRestrictToUser, function(req, res) {
-    database.DonationRequest.find({}).populate("groups").run(function(err, requests) {
-      res.render("requests/index", {requests: requests, currentCategory: "requests"});
-      
-      /*calculateExtendedAttributesOfRequests(requests, function(reqs){
-        res.render("requests/index", {requests: reqs, currentCategory: "requests"});
-      });*/
-      
-    });
-  });
 
-  app.get('/requests/:id', andRestrictToUser, function(req, res) {
-    database.DonationRequest.findOne({_id: req.params.id}).populate('donors').populate('groups').run(function(err, request) {
-      if (err)
-        throw err
-      else if (!request)
-        res.send("Could not find request: " + req.params.id);
-      else  
-        res.render("requests/show", {request: request, currentCategory: "requests"});
-    });
-  });
 
   app.get('/donors', andRestrictToUser, function(req, res) {
     database.Donor.find({}, function(err, donors) {
@@ -202,7 +144,59 @@ exports.addRoutes = function(app,database) {
         res.render("groups/show", {group: group, currentCategory: "groups"});
     });
   });
+  app.get('/requests', andRestrictToUser, function(req, res) {
+    database.DonationRequest.find({}).populate("groups").run(function(err, requests) {
+      res.render("requests/index", {requests: requests, currentCategory: "requests"});
+    });
+  });
+  app.get('/requests/remove/:id', andRestrictToUser, function(req, res) {
+    database.DonationRequest.findOne({_id: req.params.id}, function(err, request) {
+      if(request != null)
+        request.remove(function(err){
+          res.redirect("/requets");
+        });
+    });
+  });
+  app.get('/requests/new', andRestrictToUser, function(req, res) {
+    database.Group.find({}, function(err, groups){
+      database.Donor.find({}, function(err, donors){
+        res.render("requests/_form", {request: {errors: [] }, currentCategory: "requests", donors: donors, groups:groups});
+      });    
+    });
+  });
+
+  app.post('/requests/new', andRestrictToUser, function(req, res) {
+    var request = new database.DonationRequest(req.body.request);
+    request.user = req.session.user;
+    request.save(function(err, result){
+      if (err) {
+        var data = req.body.request;
+        data.errors = err;
+        res.render("requests/_form", {request: data, currentCategory: "requests", donors: donors, groups:groups});
+      }else {
+        console.dir(result);
+        if(req.body.action == "Save") {
+          res.redirect("/requests/" + result._id);
+        }else {
+          //send message
+          console.log("send message" + result._id);
+        }
+      }
+    });
+
+  });
   
+  app.get('/requests/:id', andRestrictToUser, function(req, res) {
+    database.DonationRequest.findOne({_id: req.params.id}).populate('donors').populate('groups').run(function(err, request) {
+      if (err)
+        throw err
+      else if (!request)
+        res.send("Could not find request: " + req.params.id);
+      else  
+        res.render("requests/show", {request: request, currentCategory: "requests"});
+    });
+  });
+   
   app.get('/remarks/new', andRestrictToUser, function(req, res) {
     database.Donor.find({}, function(err, donors) {
       database.Group.find({}, function(err, groups) {

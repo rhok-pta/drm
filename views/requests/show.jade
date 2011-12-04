@@ -1,18 +1,35 @@
 h2.title= request.name
-ul.details
-  li
-    .name Subject
-    .value= request.subject
-  li
-    .name Message
-    .value= request.message
-  li
-    .name Donors
+.submenu
+  ul
+    li.edit
+      a(href="/requests/edit/" + request._id) Edit
+    li.remove
+      a.confirm(href="/requests/remove/" + request._id) Remove
+
+p
+  label Subject
+  span=request.subject
+
+p
+  label Subject
+  span=request.subject
+
+p
+  label Message
+  span=request.message
+
+- if(request.donors.length > 0) 
+  p
+    label Donors
     ul
       - for donor in request.donors
-        li= donor.name
-  li
-    .name Groups
+        li
+          a(href="/donors/" + donor._id)= donor.name
+
+- if(request.groups.length > 0) 
+  p
+    label Groups
     ul
       - for group in request.groups
-        li= group.name
+        li
+          a(href="/groups/" + group._id)= group.name
