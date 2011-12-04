@@ -1,6 +1,6 @@
 exports.addRoutes = function(app,database) {
   app.get('/', function(req, res) {
-    res.render("index", { currentCategory: "dashboard"});
+    res.render("dashboard/index", { currentCategory: "dashboard"});
   });
 
   app.get('/requests', function(req, res) {
