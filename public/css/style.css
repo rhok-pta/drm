@@ -571,3 +571,13 @@ p.buttons input{
 #postForm {
   display:none;
 }
+#addPost ul {
+  margin: 0px;
+}
+#addPost li {
+  list-style:none;
+}
+#addPost li a{
+  padding-left:35px;
+  line-height:40px;
+}

@@ -15,8 +15,11 @@ $(function() {
 });
 
 $("a.unHide" ).livequery("click", function(){
-  debugger;
   $("#" + $(this).attr("href")).fadeIn();
+  setTimeout(function() {
+      $("body").animate({"scrollTop": $("textarea").offset().top + 500});
+  },10);
+
   return false;
 });
 
