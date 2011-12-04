@@ -179,9 +179,15 @@ exports.addRoutes = function(app,database) {
     if(req.params.id == null)
       res.send("No valid id");
     database.DonationRequest.findOne({_id: req.params.id}, function(err, request) {
-      if(request != null)
-      request.errors = [];
-       res.render("requests/_form", {request: request, currentCategory: "requests", donors: donors, groups:groups});
+      if(request != null){
+        request.errors = [];
+        database.Group.find({}, function(err, groups){
+          database.Donor.find({}, function(err, donors){
+            console.dir(groups);
+            res.render("requests/_form", {request: request, currentCategory: "requests", donors: donors, groups:groups});
+          });    
+        });
+      }
     });
   });
   

@@ -28,8 +28,15 @@ form(method="post", id="request-model-form")
     label Groups
     select(multiple="multiple", name="request[groups]")
       - for grp in groups
-          option(value=grp._id) 
-            span.name= grp.name
+        - var included = false;
+        - request.groups.forEach(function(mygrp){ if (mygrp == String(grp._id)){ included = true; console.log("found "+ included) }})
+        - if (included)
+          - console.log("ADASDASD");
+            option(value=grp._id, selected="true") 
+              span.name= grp.name
+        - else
+            option(value=grp._id) 
+              span.name= grp.name        
 
 
   p.buttons
