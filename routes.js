@@ -169,40 +169,50 @@ exports.addRoutes = function(app,database) {
   });
 
   app.get('/groups/edit/:id', andRestrictToUser, function(req, res) {
-    database.Group.findOne({_id: req.params.id}).populate('donors').run(function(err, group) {
-      if (err)
-        throw err
-      else if (!group)
-        res.send("Could not find group: " + req.params.id);
-      else {
-        group.errors = [];
-        res.render("groups/_form", {group : group, currentCategory: "groups"});
-      }
-    });       
+    database.Donor.find({}, function(errDonors, donors) {
+      database.Group.findOne({_id: req.params.id}).populate('donors').run(function(err, group) {
+        if (err)
+          throw err
+        else if (!group)
+          res.send("Could not find group: " + req.params.id);
+        else {
+          group.errors = [];
+          res.render("groups/_form", {donors: donors, group : group, currentCategory: "groups"});
+        }
+      });
+    });
   });
 
   app.post('/groups/edit/:id', andRestrictToUser, function(req, res) {
     var groupData = req.body.group;
 
-    database.Group.findOne({_id: req.params.id}).run(function(err, group) {
-        var index;
-        if (err)
-          throw err
-        else if (!group) {
-          res.send("Could not find group: " + req.params.id);
-        } else{
-          for (index in groupData)
-            group[index] = groupData[index];
-            
-          group.save(function(err) {
-            if (err) {
-              groupData.errors = err.errors;
-              res.render("groups/_form", {group : groupData, currentCategory: "groups"});
-            } else {
-              res.redirect("/groups/" + group._id);
-            }
-          });
-        }
+    database.Donor.find({}, function(errDonors, donors) {
+      database.Group.findOne({_id: req.params.id}).populate("donors").run(function(err, group) {
+          var index;
+          if (err)
+            throw err
+          else if (!group) {
+            res.send("Could not find group: " + req.params.id);
+          } else{
+            for (index in groupData)
+              group[index] = groupData[index];
+              
+            group.save(function(err) {
+              if (err) {
+                if(err.name == "CastError") {
+                  groupData.errors = [];
+                  groupData.errors.donors = err.name;
+                }
+                else
+                  groupData.errors = err;
+                  
+                res.render("groups/_form", {donors: donors, group : groupData, currentCategory: "groups"});
+              } else {
+                res.redirect("/groups/" + group._id);
+              }
+            });
+          }
+      });
     });
   });
   
@@ -374,7 +384,7 @@ exports.addRoutes = function(app,database) {
   });
   
   app.get('/settings', andRestrictToUser, function(req, res) {
-    res.render("settings",{user: req.session.user, currentCategory: "settings"});
+    res.render("users/user",{user: req.session.user, currentCategory: "settings"});
   });
   
   app.get('/users/edit/:id', andRestrictToUser, function(req, res) {
