@@ -29,7 +29,7 @@ exports.RemarkSchema = RemarkSchema;
 
 var PostSchema = new Schema({
   date : Date,
-  name : String,
+  subject : String,
   user : {type: ObjectId, ref: 'users'},
   medium : String,
   message : String
