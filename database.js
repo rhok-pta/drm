@@ -14,6 +14,7 @@ var UserSchema = new Schema({
   email: String,
   username : String,
   password: String,
+  widgets: [String],
 });
 exports.UserSchema = UserSchema;
 
