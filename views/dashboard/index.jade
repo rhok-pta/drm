@@ -29,4 +29,4 @@ table.display
           - var date = remark.date.getMonth() + "/" + remark.date.getDay() + "/" + ((year <1000) ? year + 1900 : year);      
           a(href='/remarks/'+remark._id)= date
       td
-        a(href='/remarks/'+remark._id)= remark.target
+        a(href='/remarks/'+remark._id)= remark.target.name

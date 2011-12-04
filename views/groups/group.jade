@@ -6,12 +6,16 @@
       th
         span Description
       th
+        span Members
+      th
         span Owner
 tr
   td
     a(href='/groups/'+group._id)= group.name  
   td
     a(href='/groups/'+group._id)= group.description
+  td
+    a(href='/groups/'+group._id)= group.donors.length
   td
     - if (group.user)
       a(href='/groups/'+group._id)= group.user.name
