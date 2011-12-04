@@ -17,7 +17,7 @@ $(function() {
 $("a.unHide" ).livequery("click", function(){
   $("#" + $(this).attr("href")).fadeIn();
   setTimeout(function() {
-      $("body").animate({"scrollTop": $("textarea").offset().top + 500});
+      $("body").animate({"scrollTop": $("a.unHide").offset().top });
   },10);
 
   return false;

@@ -159,8 +159,50 @@ exports.addRoutes = function(app,database) {
     });
   });
 
+  app.post('/donors/addPost/:id', function(req, res) {
+    var id = req.params.id;
+    var post = new database.Post(req.body.post);
+    post.user = req.session.user;
+    if(post.date == null)
+      post.date = new Date();
+    database.Donor.findOne({_id: id}, function(err, donor) {
+      post.save(function(err,result){
+        if(result){
+          donor.communicationLog.push(post);
+          donor.save(function(){
+            res.redirect("/donors/" +id);
+          });
+        }
+      });
+    });
+  });
+  
+
+  app.post('/groups/addPost/:id', function(req, res) {
+    var id = req.params.id;
+    var post = new database.Post(req.body.post);
+    post.user = req.session.user;
+
+    if(post.date == null)
+      post.date = new Date();
+    database.Group.findOne({_id: id}, function(err, group) {
+
+      post.save(function(err,result){
+        if(err)
+          console.dir(err);
+        group.communicationLog.push(post);
+        group.save(function(err, result){
+          if(err)
+              console.dir(err);
+          console.dir(result);
+          res.redirect("/groups/" +id);
+        });
+      });
+    });
+  });
+    
   app.get('/groups', andRestrictToUser, function(req, res) {
-    database.Group.find({}).populate('user', 'name').run(function(err, groups) {
+    database.Group.find({}).populate('user').populate('name').run(function(err, groups) {
       res.render("groups/index", {groups: groups, currentCategory: "groups"});
     });
   });
@@ -251,9 +293,11 @@ exports.addRoutes = function(app,database) {
   });
 
   app.get('/groups/:id', andRestrictToUser, function(req, res) {
+    console.dir("asda");
     if(req.params.id == null)
       res.send("No valid id");    
-      database.Group.findOne({_id: req.params.id}).populate('donors').run(function(err, group) {
+      database.Group.findOne({_id: req.params.id}).populate('donors').populate('communicationLog').run(function(err, group) {
+        console.dir(group);
       if (err)
         throw err
       else if (!group)
@@ -262,6 +306,8 @@ exports.addRoutes = function(app,database) {
         res.render("groups/show", {group: group, currentCategory: "groups"});
     });
   });
+  
+  
   app.get('/requests', andRestrictToUser, function(req, res) {
     database.DonationRequest.find({}).populate("groups").run(function(err, requests) {
       res.render("requests/index", {requests: requests, currentCategory: "requests"});
@@ -474,6 +520,8 @@ exports.addRoutes = function(app,database) {
       res.render("login/index",{layout: 'blank.jade', currentCategory: "donors", user: credentials }); 
     });
   });
+
+
 
   app.get('/logout',  function(req, res) {
     req.session.user = null;
