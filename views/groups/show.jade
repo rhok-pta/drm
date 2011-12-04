@@ -18,5 +18,8 @@ table.display!= partial('donors/donor', group.donors)
 
 .clear
 
+
+#reminderMenu!= partial('remarks/_add',{remark:{}})
+
 #postsMenu!= partial('posts/_form', {post:{}})  
 #posts!= partial('posts/post', group.communicationLog)

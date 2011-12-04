@@ -568,16 +568,16 @@ p.buttons input{
 .dataTables_wrapper select, .dataTables_wrapper input{
   width:80px;
 }
-#postForm {
+#postForm, #reminderForm{
   display:none;
 }
-#addPost ul {
+#addPost ul,#addReminder ul {
   margin: 0px;
 }
-#addPost li {
+#addPost li, #addReminder li {
   list-style:none;
 }
-#addPost li a{
+#addPost li a, #addReminder li a{
   padding-left:35px;
   line-height:40px;
 }

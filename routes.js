@@ -202,7 +202,7 @@ exports.addRoutes = function(app,database) {
   });
     
   app.get('/groups', andRestrictToUser, function(req, res) {
-    database.Group.find({}).populate('user').populate('name').run(function(err, groups) {
+    database.Group.find({}).populate('user', 'name').run(function(err, groups) {
       res.render("groups/index", {groups: groups, currentCategory: "groups"});
     });
   });
