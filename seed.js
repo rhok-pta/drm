@@ -74,6 +74,17 @@ group2.donors = [donor2, donor3];
 group2.user = user1;
 group2.save();
 
+// Add remarks
+var remark1 = new database.Remark();
+remark1.name = "Phone for more funding";
+remark1.text = "They might have money availabile beginning of December 2011";
+remark1.date = new Date();
+remark1.target = donor1;
+remark1.user = user1;
+remark1.save();
+
+donor1.remarks = [remark1];
+
 // Add donation requests
 var request1 = new database.DonationRequest();
 request1.name = "Request to companies to donate";

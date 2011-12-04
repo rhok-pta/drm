@@ -31,8 +31,14 @@ exports.addRoutes = function(app,database) {
   
   
   app.get('/', andRestrictToUser, function(req, res) {
-    database.Remark.find({active:true}, function(err, remarks){
-      res.render("dashboard/index", { currentCategory: "dashboard", remarks: remarks});
+    database.Remark.find({active:true}).run(function(err, remarks){
+      remarks.each(function(remark){
+        findDonorOrGroupsFor(remark.target, function(target){
+          remark.target= target;
+        });
+        res.render("remarks/remark", {remark : remark});
+      });
+      //res.render("dashboard/index", { currentCategory: "dashboard", remarks: remarks});
     });
   });
 
