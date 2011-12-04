@@ -262,6 +262,12 @@ exports.addRoutes = function(app,database) {
       res.render("login/index",{layout: 'blank.jade', currentCategory: "donors", user: credentials }); 
     });
   });  
+  app.get('/logout',  function(req, res) {
+    req.session.user = null;
+    res.redirect("/login");
+  });
+
 };
+
 
 
