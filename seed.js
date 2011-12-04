@@ -93,8 +93,6 @@ request2.sendDate = new Date();
 request2.subject = "Help the children";
 request2.save();
 
-
-
 console.log("Database seeded");
 
 database.disconnect();
