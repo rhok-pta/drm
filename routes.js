@@ -172,7 +172,15 @@ exports.addRoutes = function(app,database) {
         res.render("groups/show", {group: group, currentCategory: "groups"});
     });
   });
-
+  
+  app.get('/reminders/new', function(req, res) {
+    database.Donor.find({}, function(err, donors) {
+      database.Group.find({}, function(err, groups) {
+        res.render("reminders/_form", {reminder: {}, currentCategory: "remind", donors : donors, groups : groups });
+      });
+    });
+  });
+  
   app.get('/settings', function(req, res) {
     res.render("settings",{currentCategory: "donors"});
   });

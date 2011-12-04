@@ -19,6 +19,7 @@ var UserSchema = new Schema({
 exports.UserSchema = UserSchema;
 
 var RemarkSchema = new Schema({
+  name : String,
   text : String,
   date : Date,
   user : {type: ObjectId, ref: 'users'}
