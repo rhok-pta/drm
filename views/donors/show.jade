@@ -37,4 +37,4 @@ p
   label Website
   span=donor.website
 
-#posts!= partial('posts/show', donor.communicationLog)
+#posts!= partial('posts/index', { commLog : donor.communicationLog})
