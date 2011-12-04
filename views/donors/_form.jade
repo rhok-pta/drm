@@ -12,7 +12,9 @@ form(method="post", id="donor-model-form")
       p.error= donor.errors.email
   p
     label Birthday (MM/DD/YY)
-    input(type="text", name="donor[birthday]", value=donor.birthday)
+      - var year = donor.birthday.getYear()
+      - var date = donor.birthday.getMonth() + "/" + donor.birthday.getDay() + "/" + ((year <1000) ? year + 1900 : year);
+    input(type="text", name="donor[birthday]", value=date, id="datepicker")
     - if (donor.errors.birthday)
       p.error= donor.errors.birthday
   p

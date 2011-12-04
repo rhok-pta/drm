@@ -5,12 +5,16 @@ h2.title=donor.name
       a(href="/donors/edit/" + donor._id) Edit
     li.remove
       a.confirm(href="/donors/remove/" + donor._id) Remove
+
 p
   label E-Mail
   span=donor.email
 p
   label Birthday
-  span=donor.birthday
+  - if(donor.birthday != null)
+    - var year = donor.birthday.getYear()
+    span=donor.birthday.getMonth() + "/" + donor.birthday.getDay() + "/" + ((year <1000) ? year + 1900 : year);
+
 p
   label Street
   span=donor.street
@@ -34,4 +38,5 @@ p
   label Website
   span=donor.website
   
+#postsMenu!= partial('posts/_form', {post:{}})  
 #posts!= partial('posts/post', donor.communicationLog)

@@ -13,3 +13,10 @@ $(document).ready(function() {
 $(function() {
 	$( "#datepicker" ).datepicker();
 });
+
+$("a.unHide" ).livequery("click", function(){
+  debugger;
+  $("#" + $(this).attr("href")).fadeIn();
+  return false;
+});
+
