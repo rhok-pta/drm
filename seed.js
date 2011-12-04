@@ -64,12 +64,14 @@ var group1 = new database.Group();
 group1.name = "Pretoria";
 group1.description = "All donors in the Pretoria area";
 group1.donors = [donor1, donor3];
+group1.user = user1;
 group1.save();
 
 var group2 = new database.Group();
 group2.name = "Corporations";
 group2.description = "All donors that are corporations";
 group2.donors = [donor2, donor3];
+group2.user = user1;
 group2.save();
 
 // Add donation requests

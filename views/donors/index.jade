@@ -2,9 +2,6 @@
   ul.submenu
     li.add
       a(href='/donors/new') Add Donor
-  
-
-h2.title Donors
 
 table.display
   thead
@@ -17,13 +14,4 @@ table.display
         span E-Mail
       th
         span Telephone
-  - for donor in donors
-    tr
-      td
-        a(href='/donors/'+donor._id)= donor.name  
-      td
-        a(href='/donors/'+donor._id)= donor.company  
-      td
-        a(href='/donors/'+donor._id)= donor.email  
-      td
-        a(href='/donors/'+donor._id)= donor.telephone  
+  tbody!= partial('donors/donor', donors)

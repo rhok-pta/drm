@@ -188,13 +188,13 @@ exports.addRoutes = function(app,database) {
   });
 
   app.get('/groups', andRestrictToUser, function(req, res) {
-    database.Group.find({}, function(err, groups) {
+    database.Group.find({}).populate('user', 'name').run(function(err, groups) {
       res.render("groups/index", {groups: groups, currentCategory: "groups"});
     });
   });
 
   app.get('/groups/:id', andRestrictToUser, function(req, res) {
-    database.Group.findOne({_id: req.params.id}).populate('donors').run(function(err, group) {
+    database.Group.findOne({_id: req.params.id}).populate('donors').populate('user', 'name').run(function(err, group) {
       if (err)
         throw err
       else if (!group)
