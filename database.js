@@ -19,6 +19,7 @@ var UserSchema = new Schema({
 exports.UserSchema = UserSchema;
 
 var RemarkSchema = new Schema({
+  active : {type: Boolean, default:true},
   name : String,
   text : String,
   date : Date,
@@ -58,6 +59,7 @@ var GroupSchema = new Schema({
   name : String,
   description : String,
   donors : [{type: ObjectId, ref: 'donors'}],
+  remarks: [{type: ObjectId, ref: 'remarks'}],
   rules : String // TODO: Create some format for rules
 });
 exports.GroupSchema = GroupSchema;
@@ -66,7 +68,7 @@ var DonationSchema = new Schema({
   amount : Number,
   date : Date,
   donor : {type: ObjectId, ref: 'donors'}, // DonorSchema
-  remark : {type: ObjectId, ref: 'remarks'}, // RemarkSchema
+  remarks: [{type: ObjectId, ref: 'remarks'}],
   user : {type: ObjectId, ref: 'users'} // UserSchema
 });
 exports.DonationSchema = DonationSchema;

@@ -1,4 +1,38 @@
 exports.addRoutes = function(app,database) {
+  var findDonorOrGroupsFor = function(id, callBack){
+    database.Donor.findOne({_id:id}, function(err, res){
+      if(res){
+        callBack(res);
+      }else {
+        database.Group.findOne({_id:id}, function(err, res){
+          if(res){
+            callBack(res);
+          }else{
+            throw "Error: could not find target";
+          }
+        });
+      }
+    });
+  };
+  
+  var findAllActiveRemarks = function(id, callBack){
+    database.Donor.findOne({_id:id}, function(err, res){
+      if(res){
+        callBack(res);
+      }else {
+        database.Group.findOne({_id:id}, function(err, res){
+          if(res){
+            callBack(res);
+          }else{
+            throw "Error: could not find target";
+          }
+        });
+      }
+    });
+  };
+  
+  
+  
   app.get('/', function(req, res) {
     res.render("dashboard/index", { currentCategory: "dashboard"});
   });
@@ -173,10 +207,26 @@ exports.addRoutes = function(app,database) {
     });
   });
   
-  app.get('/reminders/new', function(req, res) {
+  app.get('/remarks/new', function(req, res) {
     database.Donor.find({}, function(err, donors) {
       database.Group.find({}, function(err, groups) {
-        res.render("reminders/_form", {reminder: {}, currentCategory: "remind", donors : donors, groups : groups });
+        res.render("remarks/_form", {remark: {}, currentCategory: "remind", donors : donors, groups : groups });
+      });
+    });
+  });
+  app.post('/remarks/new', function(req, res) {
+    var data = req.body.remark;
+    findDonorOrGroupsFor(data.target, function(target){
+      var reminder = new database.Remark(data);
+      target.remarks.push(reminder);      
+      target.save(function(err, result){
+        if (err){
+          var reminderData = req.body.reminder;
+          reminderData.errors = err;
+          res.render("remarks/_form", {remark: reminderData, currentCategory: "remind", donors : donors, groups : groups }); 
+        }else {
+          res.redirect("/");
+        }
       });
     });
   });
@@ -185,3 +235,5 @@ exports.addRoutes = function(app,database) {
     res.render("settings",{currentCategory: "donors"});
   });
 };
+
+
