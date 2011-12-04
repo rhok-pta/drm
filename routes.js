@@ -145,6 +145,22 @@ exports.addRoutes = function(app,database) {
     });
   });
 
+  app.post('/donors/addPost/:id', function(req, res) {
+    var id = req.params.id;
+    var post = new database.Post(req.body.post);
+    post.user = req.session.user;
+    database.Donor.findOne({_id: id}, function(err, donor) {
+      post.save(function(err,result){
+        if(result){
+          donor.communicationLog.push(post);
+          donor.save(function(){
+            res.redirect("/donors/" +id);
+          });
+        }
+      });
+    });
+  });
+  
   app.get('/groups', andRestrictToUser, function(req, res) {
     database.Group.find({}).populate('user', 'name').run(function(err, groups) {
       res.render("groups/index", {groups: groups, currentCategory: "groups"});
@@ -460,6 +476,8 @@ exports.addRoutes = function(app,database) {
       res.render("login/index",{layout: 'blank.jade', currentCategory: "donors", user: credentials }); 
     });
   });
+
+
 
   app.get('/logout',  function(req, res) {
     req.session.user = null;
