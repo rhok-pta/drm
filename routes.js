@@ -23,6 +23,43 @@ exports.addRoutes = function(app,database) {
       next();
   }
   
+  var calculateExtendedAttributesOfRequests = function(requests, callback) {
+    var resultingRequests = [];
+    for(var reqIndex = 0; reqIndex < requests.length; reqIndex++) {
+      var request = requests[reqIndex];
+      
+      if(request.sentDate == null || request.sentDate > Date.now() ){
+        request.sent = "No"  ;
+      }else {
+        request.sent = "Yes";
+      }
+      
+      var receiver = request.donors;
+      
+      console.log("we do have a group");
+      request.groups.forEach(function(err, grp){
+        if(grp.donors != null) {
+          grp.donors.forEach(function(donorId){
+              var found = false;
+              receiver.forEach(function(d){
+                if(d==donorId){
+                  console.log("gefunden");
+                  found = true;
+                  return true; 
+                }
+              });
+              if (found == false){
+                receiver.push(donorId);
+              }
+          });
+        }        
+      });      
+      request.amountOrReceiver = receiver.length;      
+      resultingRequests.push(request);
+    }
+    console.dir(resultingRequests);
+    callback(resultingRequests);
+  }
   
   
   app.get('/', andRestrictToUser, function(req, res) {
@@ -32,51 +69,13 @@ exports.addRoutes = function(app,database) {
   });
 
   app.get('/requests', andRestrictToUser, function(req, res) {
-    database.DonationRequest.find({}, function(err, requests) {
-            
-    for(var reqIndex = 0; reqIndex < requests.length; reqIndex++) {
-        var request = requests[reqIndex];
-      if(request.sentDate == null || request.sentDate > Date.now() ){
-        request.sent = "No"  ;
-      }else {
-        request.sent = "Yes";
-      }
-      var receiver = request.donors;
+    database.DonationRequest.find({}).populate("groups").run(function(err, requests) {
+      res.render("requests/index", {requests: requests, currentCategory: "requests"});
       
-      if(request.groups.length > 0){
-        console.log("aa");
-        for (index = 0; index < request.groups.length; index++){
-          var grp = request.groups[index];
-          database.Group.findOne({_id:grp}, function(err, grpQuery){
-            grpQuery.donors.forEach(function(donorId){
-                var found = false;
-                receiver.forEach(function(d){
-                  if(d==donorId){
-                    console.log("gefunden");
-                    found = true;
-                    return true; 
-                  }
-                });
-                if (found == false){
-                  receiver.push(donorId);
-                }
-            });
-            
-            if(index == request.groups.length -1){
-              // reached last grp in list
-              request.amountOfReceiver = receiver.length;
-              if(reqIndex == requests.length-1)
-                res.render("requests/index", {requests: requests, currentCategory: "requests"});
-            }          
-          });
-        }        
-      }else {
-        request.amountOfReceiver = receiver.length;
-        if(reqIndex == requests.length-1)
-          res.render("requests/index", {requests: requests, currentCategory: "requests"});        
-      }
-    }
-    
+      /*calculateExtendedAttributesOfRequests(requests, function(reqs){
+        res.render("requests/index", {requests: reqs, currentCategory: "requests"});
+      });*/
+      
     });
   });
 

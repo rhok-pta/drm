@@ -85,6 +85,31 @@ var DonationRequestSchema = new Schema({
    subject : String,
    user : {type: ObjectId, ref: 'users'} // UserSchema
 });
+DonationRequestSchema.virtual('numberOfTargets')
+.get(function () {
+  var receiver = this.donors;
+  this.groups.forEach(function(grp){
+    grp.donors.forEach(function(donorId){
+        var found = false;
+        receiver.forEach(function(d){
+          if(d==donorId){
+            found = true;
+            return true; 
+          }
+        });
+        if (found == false){
+          receiver.push(donorId);
+        }
+    });        
+  });      
+  return receiver.length;
+});
+DonationRequestSchema.virtual('sent')
+.get(function () {
+   return (this.sentDate == null || this.sentDate > Date.now() ) ? 
+      "No"  : "Yes";
+});
+
 exports.DonationRequestSchema = DonationRequestSchema;
 
 exports.Remark = mongoose.model('remarks', RemarkSchema);
