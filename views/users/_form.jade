@@ -1,0 +1,21 @@
+h2 Edit User
+form(method="post", id="user-model-form")
+  p
+    label Username
+    span=user.username
+  p
+    label Name
+    input(type="text", name="user[name]", value=user.name)
+    - if (user.errors.name)
+    p.error= user.errors.name
+  p
+    label E-Mail
+    input(type="text", name="user[email]", value=user.email)
+    - if (user.errors.email)
+    p.error= user.errors.email
+  p.buttons
+    - if (user.isNew)
+      input(type="submit", value="Save")
+    - else
+      input(type="submit", value="Update")
+

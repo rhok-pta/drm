@@ -275,8 +275,55 @@ exports.addRoutes = function(app,database) {
   });
   
   app.get('/settings', andRestrictToUser, function(req, res) {
-    res.render("user",{currentCategory: "donors"});
+    res.render("settings",{user: req.session.user, currentCategory: "settings"});
   });
+  
+  app.get('/users/edit/:id', andRestrictToUser, function(req, res) {
+    database.User.findOne({_id: req.params.id}, function(err, user) {
+      if (err)
+        throw err
+      else if (!user)
+        res.send("Could not find user: " + req.params.id);
+      else{
+        user.errors = [];
+        res.render("users/_form", {user : user, currentCategory: "settings"});
+      }
+    });       
+  });
+  
+  app.post('/users/edit/:id', andRestrictToUser, function(req, res) {
+    // update
+    var dataOfUser=req.body.user;
+
+    database.User.findOne({_id: req.params.id}, function(err, user) {
+        if (err)
+          throw err
+        else if (!user) {
+          res.send("Could not find user: " + req.params.id);
+        } else{
+          for (i in dataOfUser){
+            user[i] = dataOfUser[i];
+          }
+          user.save(function(err){
+            if(err){
+              if(err.name == "CastError"){
+                dataOfUser.errors = [];
+              }else {
+                dataOfUser .errors = err.errors;                
+              }
+              req.flash('info', 'tests');
+              console.dir(err);
+              res.render("users/_form", {donor : dataOfUser, currentCategory: "settings"});
+            }else {
+              req.session.user = user //TODO: renew all users of people logged on, once you can use somebody else
+              res.redirect("/settings");
+            }
+          });
+        }
+    });
+  });
+  
+  
   
   app.get('/login',  function(req, res) {
     res.render("login/index",{layout: 'blank.jade', currentCategory: "donors", user: {errors:[]}});

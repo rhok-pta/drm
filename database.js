@@ -13,8 +13,7 @@ var UserSchema = new Schema({
   name : String,
   email: String,
   username : String,
-  password: String,
-  widgets: [String],
+  password: String
 });
 exports.UserSchema = UserSchema;
 
