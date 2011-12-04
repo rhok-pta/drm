@@ -344,7 +344,7 @@ exports.addRoutes = function(app,database) {
   });
   
   app.get('/settings', andRestrictToUser, function(req, res) {
-    res.render("settings",{user: req.session.user, currentCategory: "settings"});
+    res.render("users/user",{user: req.session.user, currentCategory: "settings"});
   });
   
   app.get('/users/edit/:id', andRestrictToUser, function(req, res) {
