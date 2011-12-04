@@ -14,12 +14,16 @@ var UserSchema = new Schema({
   email: String,
   username : String,
   password: String,
+  widgets: [String],
 });
 exports.UserSchema = UserSchema;
 
 var RemarkSchema = new Schema({
+  active : {type: Boolean, default:true},
+  name : String,
   text : String,
   date : Date,
+  target : {type: ObjectId},
   user : {type: ObjectId, ref: 'users'}
 });
 exports.RemarkSchema = RemarkSchema;
@@ -47,7 +51,8 @@ var DonorSchema = new Schema({
   donationDates : [Date], // TODO: Allow for ranges
   communicationLog : [{type: ObjectId, ref: 'posts'}],
   remarks: [{type: ObjectId, ref: 'remarks'}],
-  user: {type: ObjectId, ref: 'users'}
+  user: {type: ObjectId, ref: 'users'},
+  isDonor : {type:Boolean, default:true}
 });
 exports.DonorSchema = DonorSchema;
 
@@ -56,7 +61,9 @@ var GroupSchema = new Schema({
   name : String,
   description : String,
   donors : [{type: ObjectId, ref: 'donors'}],
-  rules : String // TODO: Create some format for rules
+  remarks: [{type: ObjectId, ref: 'remarks'}],
+  rules : String, // TODO: Create some format for rules
+  isDonor : {type:Boolean, default:false} // to check
 });
 exports.GroupSchema = GroupSchema;
 
@@ -64,7 +71,7 @@ var DonationSchema = new Schema({
   amount : Number,
   date : Date,
   donor : {type: ObjectId, ref: 'donors'}, // DonorSchema
-  remark : {type: ObjectId, ref: 'remarks'}, // RemarkSchema
+  remarks: [{type: ObjectId, ref: 'remarks'}],
   user : {type: ObjectId, ref: 'users'} // UserSchema
 });
 exports.DonationSchema = DonationSchema;

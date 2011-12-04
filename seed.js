@@ -6,6 +6,7 @@ console.log("Seeding database...");
 database.Donor.find({}).remove();
 database.Group.find({}).remove();
 database.User.find({}).remove();
+database.Remark.find({}).remove();
 database.DonationRequest.find({}).remove();
 
 // Add users

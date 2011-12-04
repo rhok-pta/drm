@@ -1,36 +1,73 @@
 exports.addRoutes = function(app,database) {
+  var findDonorOrGroupsFor = function(id, callBack){
+    database.Donor.findOne({_id:id}, function(err, res){
+      if(res){
+        callBack(res);
+      }else {
+        database.Group.findOne({_id:id}, function(err, res){
+          if(res){
+            callBack(res);
+          }else{
+            throw "Error: could not find target";
+          }
+        });
+      }
+    });
+  };
+  
+ 
+  
+  
+  
   app.get('/', function(req, res) {
-    res.render("index", { currentCategory: "dashboard"});
+    database.Remark.find({active:true}, function(err, remarks){
+      res.render("dashboard/index", { currentCategory: "dashboard", remarks: remarks});
+    });
   });
 
   app.get('/requests', function(req, res) {
     database.DonationRequest.find({}, function(err, requests) {
+      res.send("WIP");
+      return;
+      
     requests.forEach(function(request){
       if(request.sentDate == null || request.sentDate > Date.now() ){
         request.sent = "No"  ;
       }else {
         request.sent = "Yes";
       }
+
       var receiver = [];
-      request.groups.forEach(function(grp){        
-        console.dir(grp);
-        database.Group.find({_id:grp}).each(function(err, donorId){
-          console.log("donorId");
-          console.dir(donorId);
-          var found = false;
-          receiver.forEach(function(d){
-            if(d==donorId){
-              found = true;
-              return true;
-            }
-          });
-          if (!found)
-            receiver.push(donorId);
+      for (index = 0; index < request.groups.length; index++){
+        var grp = request.groups[index];
+        debugger;
+        database.Group.findOne({_id:grp}).each(function(err, grpQuery){      
+          console.dir("Error:");
+          console.dir(err);       
+          console.dir(grpQuery);       
+          grpQuery.donors.forEach(function(donorId){
+              var found = false;
+              receiver.forEach(function(d){
+                if(d==donorId){
+                  console.log("gefunden");
+                  found = true;
+                  return true; 
+                }
+              });
+              if (found == false){
+                console.dir(receiver);
+                receiver.push(donorId);
+              }
+          });       
+          
+          if(index == request.groups.length -1){
+            // reached last grp in list
+            request.amountOfReceiver = receiver.length;
+        //    res.render("requests/index", {requests: requests, currentCategory: "requests"});
+          }    
         });
-      });      
-      request.amountOfReceiver = receiver.length;
-    });
-    res.render("requests/index", {requests: requests, currentCategory: "requests"});
+      }; 
+      });
     });
   });
 
@@ -137,7 +174,7 @@ exports.addRoutes = function(app,database) {
       else if (!donor)
         res.send("Could not find donor: " + req.params.id);
       else
-        res.render("donors/show", {donor: donor, currentCategory: "donors"});
+        res.render("donors/show", {donor: donor, currentCategory: "donors", activeRemark: {}});
     });
   });
 
@@ -157,8 +194,49 @@ exports.addRoutes = function(app,database) {
         res.render("groups/show", {group: group, currentCategory: "groups"});
     });
   });
-
+  
+  app.get('/remarks/new', function(req, res) {
+    database.Donor.find({}, function(err, donors) {
+      database.Group.find({}, function(err, groups) {
+        res.render("remarks/_form", {remark: {}, currentCategory: "remind", donors : donors, groups : groups });
+      });
+    });
+  });
+  
+  app.get('/remarks/:id', function(req, res) {
+    database.Remark.findOne({_id : req.params.id}, function(err, remark){
+      findDonorOrGroupsFor(remark.target, function(target){
+        if(target.isDonor){
+          res.render("donors/show", {donor: target, currentCategory: "donors", activeRemark:remark._id});
+        }else {
+          res.render("groups/show", {group: target, currentCategory: "groups", activeRemark:remark._id});
+        }
+      });      
+    });
+  });  
+  app.post('/remarks/new', function(req, res) {
+    var data = req.body.remark;
+    findDonorOrGroupsFor(data.target, function(target){
+      var reminder = new database.Remark(data);
+      reminder.target = target;
+      reminder.save(function(err){
+        target.remarks.push(reminder);      
+        target.save(function(err, result){
+          if (err){
+            var reminderData = req.body.reminder;
+            reminderData.errors = err;
+            res.render("remarks/_form", {remark: reminderData, currentCategory: "remind", donors : donors, groups : groups }); 
+          }else {
+            res.redirect("/");
+          }
+        });        
+      });
+    });
+  });
+  
   app.get('/settings', function(req, res) {
     res.render("settings",{currentCategory: "donors"});
   });
 };
+
+

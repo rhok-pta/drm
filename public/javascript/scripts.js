@@ -8,3 +8,8 @@ $('a.confirm').livequery('click', function(event) {
 $(document).ready(function() {
     $('table').dataTable();
 } );
+
+
+$(function() {
+	$( "#datepicker" ).datepicker();
+});
