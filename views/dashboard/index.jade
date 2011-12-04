@@ -25,6 +25,9 @@ table.display
       td
         a(href='/remarks/'+remark._id)= remark.name
       td
-        a(href='/remarks/'+remark._id)= remark.date
+        - if(remark.date != null)
+          - var year = remark.date.getYear()
+          - var date = remark.date.getMonth() + "/" + remark.date.getDay() + "/" + ((year <1000) ? year + 1900 : year);      
+          a(href='/remarks/'+remark._id)= date
       td
         a(href='/remarks/'+remark._id)= remark.target

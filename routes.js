@@ -237,16 +237,6 @@ exports.addRoutes = function(app,database) {
       res.render("requests/index", {requests: requests, currentCategory: "requests"});
     });
   });
-  app.get('/requests/remove/:id', andRestrictToUser, function(req, res) {
-    if(req.params.id == null)
-      res.send("No valid id");
-    database.DonationRequest.findOne({_id: req.params.id}, function(err, request) {
-      if(request != null)
-        request.remove(function(err){
-          res.redirect("/requets");
-        });
-    });
-  });
   
   app.get('/requests/edit/:id', andRestrictToUser, function(req, res) {
     if(req.params.id == null)
@@ -283,11 +273,8 @@ exports.addRoutes = function(app,database) {
               });
           }else {
             res.redirect("/requests/" + result._id);
-          }
-                    
+          }                    
         });
-
-
       }
     });
   });  
@@ -319,6 +306,17 @@ exports.addRoutes = function(app,database) {
       }
     });
 
+  });
+  
+  app.get('/requests/remove/:id', andRestrictToUser, function(req, res) {
+    if(req.params.id == null)
+      res.send("No valid id");
+    database.DonationRequest.findOne({_id: req.params.id},function(err, request) {
+      if (err)
+        throw err
+      request.remove();
+      res.redirect("/requests");
+    });
   });
   
   app.get('/requests/:id', andRestrictToUser, function(req, res) {

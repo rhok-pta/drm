@@ -10,7 +10,10 @@ p
   span=donor.email
 p
   label Birthday
-  span=donor.birthday
+  - if(donor.birthday != null)
+    - var year = donor.birthday.getYear()
+    span=donor.birthday.getMonth() + "/" + donor.birthday.getDay() + "/" + ((year <1000) ? year + 1900 : year);
+
 p
   label Street
   span=donor.street
