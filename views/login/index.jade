@@ -1,4 +1,4 @@
-h2 Please login!
+h2 Login
 
 - if (user.errors.general)
   p.error= user.errors.general
@@ -7,13 +7,8 @@ form(method="post", id="user")
   p
     label Username
     input(type="text", name="user[username]", value=user.username)
-    - if (user.errors.name)
-    p.error= user.errors.name
   p
     label Password
     input(type="password", name="user[password]")
-    - if (user.errors.password)
-    p.error= user.errors.password
-
   p.buttons
     input(type="submit", value="Login")

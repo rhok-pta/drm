@@ -19,7 +19,7 @@ exports.addRoutes = function(app,database) {
   };
   var andRestrictToUser =  function(req, res, next) {
     // toDO
-    return next();
+    //return next();
     
     return req.session.user == undefined ? 
       res.redirect("/login") :
@@ -155,7 +155,10 @@ exports.addRoutes = function(app,database) {
       else if (!donor)
         res.send("Could not find donor: " + req.params.id);
       else
-        res.render("donors/show", {donor: donor, currentCategory: "donors", activeRemark: {}});
+      {
+        var communicationLog = _.sortBy(donor.communicationLog, function(post) {return post.date;})
+        res.render("donors/show", {donor: donor, currentCategory: "donors", activeRemark: {}, communicationLog: communicationLog});
+      }
     });
   });
 
@@ -438,7 +441,8 @@ exports.addRoutes = function(app,database) {
     database.Remark.findOne({_id : req.params.id}, function(err, remark){
       findDonorOrGroupsFor(remark.target, function(target){
         if(target.isDonor){
-          res.render("donors/show", {donor: target, currentCategory: "donors", activeRemark:remark._id});
+          var communicationLog = _.sortBy(target.communicationLog, function(post) {return post.date;})
+          res.render("donors/show", {donor: target, currentCategory: "donors", activeRemark:remark._id, communicationLog: communicationLog});
         }else {
           res.render("groups/show", {group: target, currentCategory: "groups", activeRemark:remark._id});
         }
@@ -522,9 +526,9 @@ exports.addRoutes = function(app,database) {
 
   app.post('/login', function(req, res) {
     var credentials = req.body.user;    
-    database.User.findOne({username : credentials.username}, function(err, user){
-      if (!err) {
-        if(user.password == credentials.password){
+    database.User.findOne({username : credentials.username}, function(err, user) {
+      if (!err && user) {
+        if (user.password == credentials.password) {
           req.session.user = user;
           res.redirect("/"); 
           return;
