@@ -93,7 +93,7 @@ exports.addRoutes = function(app,database) {
 
   app.get('/donors', andRestrictToUser, function(req, res) {
     database.Donor.find({}, function(err, donors) {
-      res.render("donors/index", {donors: donors, currentCategory: "donors"});
+      res.render("donors", {donors: donors, currentCategory: "donors"});
     });
   });
 

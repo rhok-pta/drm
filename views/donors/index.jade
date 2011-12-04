@@ -3,15 +3,4 @@
     li.add
       a(href='/donors/new') Add Donor
 
-table.display
-  thead
-    tr
-      th
-        span Name
-      th
-        span Company
-      th
-        span E-Mail
-      th
-        span Telephone
-  tbody!= partial('donors/donor', donors)
+table.display!= partial('donors/donor', donors)
