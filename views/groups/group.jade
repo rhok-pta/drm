@@ -13,4 +13,5 @@ tr
   td
     a(href='/groups/'+group._id)= group.description
   td
-    a(href='/groups/'+group._id)= group.user.name
+    - if (group.user)
+      a(href='/groups/'+group._id)= group.user.name
