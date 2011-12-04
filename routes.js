@@ -40,7 +40,7 @@ exports.addRoutes = function(app,database) {
 
   app.get('/donors', andRestrictToUser, function(req, res) {
     database.Donor.find({}, function(err, donors) {
-      res.render("donors/index", {donors: donors, currentCategory: "donors"});
+      res.render("donors", {donors: donors, currentCategory: "donors"});
     });
   });
 
@@ -142,7 +142,7 @@ exports.addRoutes = function(app,database) {
   });
 
   app.get('/groups', andRestrictToUser, function(req, res) {
-    database.Group.find({}, function(err, groups) {
+    database.Group.find({}).populate('user', 'name').run(function(err, groups) {
       res.render("groups/index", {groups: groups, currentCategory: "groups"});
     });
   });

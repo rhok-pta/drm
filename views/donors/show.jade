@@ -6,9 +6,6 @@ h2.title=donor.name
     li.remove
       a.confirm(href="/donors/remove/" + donor._id) Remove
 p
-  label Name
-  span=donor.name
-p
   label E-Mail
   span=donor.email
 p
@@ -36,5 +33,5 @@ p
 p
   label Website
   span=donor.website
-
+  
 #posts!= partial('post', donor.communicationLog)
