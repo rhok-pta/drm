@@ -237,7 +237,7 @@ exports.addRoutes = function(app,database) {
   });
   
   app.get('/settings', andRestrictToUser, function(req, res) {
-    res.render("settings",{currentCategory: "donors"});
+    res.render("user",{currentCategory: "donors"});
   });
   
   app.get('/login',  function(req, res) {
@@ -261,13 +261,10 @@ exports.addRoutes = function(app,database) {
       credentials.errors.general = "Could not log in with. Wrong username/password";
       res.render("login/index",{layout: 'blank.jade', currentCategory: "donors", user: credentials }); 
     });
-  });  
+  });
+
   app.get('/logout',  function(req, res) {
     req.session.user = null;
     res.redirect("/login");
   });
-
 };
-
-
-
