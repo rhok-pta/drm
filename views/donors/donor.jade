@@ -1,0 +1,20 @@
+- if (firstInCollection)
+  thead
+    tr
+      th
+        span Name
+      th
+        span Company
+      th
+        span E-Mail
+      th
+        span Telephone
+tr
+  td
+    a(href='/donors/'+donor._id)= donor.name  
+  td
+    a(href='/donors/'+donor._id)= donor.company  
+  td
+    a(href='/donors/'+donor._id)= donor.email  
+  td
+    a(href='/donors/'+donor._id)= donor.telephone  

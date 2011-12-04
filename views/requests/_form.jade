@@ -1,0 +1,38 @@
+h2 Add New Request
+
+form(method="post", id="request-model-form")
+  p
+    label Name
+    input(type="text", name="request[name]", value=request.name)
+    - if (request.errors.name)
+      p.error= request.errors.name
+  p
+    label Subject
+    input(type="text", name="request[subject]", value=request.subject)
+    - if (request.errors.subject)
+      p.error= request.errors.subject
+
+  p
+    label Message
+    textarea(name="request[message]", value=request.message)
+    - if (request.errors.message)
+      p.error= request.errors.message
+
+  p
+    label Donors
+    select(multiple="multiple", size="2", name="request[donors]")
+      - for donor in donors
+          option(value=donor._id) 
+            span.name= donor.name
+  p
+    label Groups
+    select(multiple="multiple", name="request[groups]")
+      - for grp in groups
+          option(value=grp._id) 
+            span.name= grp.name
+
+
+  p.buttons
+    input(type="submit", value="Save",  name="action")
+    input(type="submit", value="Send",name="action")
+

@@ -1,10 +1,16 @@
 h2.title= group.name
-ul.details
-  li
-    .name Description
-    .value= group.description
-  li
-    .name Donors
-    ul
-      - for donor in group.donors
-        li= donor.name
+.submenu
+  ul
+    li.edit
+      a(href="/groups/edit/" + group._id) Edit
+    li.remove
+      a.confirm(href="/groups/remove/" + group._id) Remove
+p
+  label Description
+  span=group.description
+p
+  label Owner
+  span=group.user.name
+  
+h3 Donors
+table.display!= partial('donors/donor', group.donors)

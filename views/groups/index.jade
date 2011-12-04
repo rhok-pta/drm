@@ -1,5 +1,6 @@
-h2.title Groups
-ul.list
-  - for group in groups
-    li
-      a(href='/groups/'+group._id)= group.name
+.submenu
+  ul.submenu
+    li.add
+      a(href='/groups/new') Add Group
+
+table.display!= partial('groups/group', groups)
