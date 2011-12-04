@@ -65,7 +65,8 @@ exports.addRoutes = function(app,database) {
   });
 
   app.post('/donors/edit/:id', andRestrictToUser, function(req, res) {
-    // update
+    if(req.params.id == null)
+      res.send("No valid id");
     var dataOfDonor=req.body.donor;
 
     database.Donor.findOne({_id: req.params.id}).populate('donors').run(function(err, donor) {
@@ -97,6 +98,8 @@ exports.addRoutes = function(app,database) {
   });
   
   app.get('/donors/edit/:id', andRestrictToUser, function(req, res) {
+    if(req.params.id == null)
+      res.send("No valid id");    
     database.Donor.findOne({_id: req.params.id}).populate('donors').run(function(err, donor) {
       if (err)
         throw err
@@ -110,6 +113,8 @@ exports.addRoutes = function(app,database) {
   });
 
   app.get('/donors/remove/:id', andRestrictToUser, function(req, res) {
+    if(req.params.id == null)
+      res.send("No valid id");
     database.Donor.findOne({_id: req.params.id}).populate('donors').run(function(err, donor) {
       if (err)
         throw err
@@ -124,6 +129,8 @@ exports.addRoutes = function(app,database) {
   }); 
   
   app.get('/donors/:id', andRestrictToUser, function(req, res) {
+    if(req.params.id == null)
+      res.send("No valid id");
     database.Donor.findOne({_id: req.params.id}).populate('communicationLog').run(function(err, donor) {
       if (err)
         throw err
@@ -141,7 +148,9 @@ exports.addRoutes = function(app,database) {
   });
 
   app.get('/groups/:id', andRestrictToUser, function(req, res) {
-    database.Group.findOne({_id: req.params.id}).populate('donors').run(function(err, group) {
+    if(req.params.id == null)
+      res.send("No valid id");    
+      database.Group.findOne({_id: req.params.id}).populate('donors').run(function(err, group) {
       if (err)
         throw err
       else if (!group)
@@ -156,6 +165,8 @@ exports.addRoutes = function(app,database) {
     });
   });
   app.get('/requests/remove/:id', andRestrictToUser, function(req, res) {
+    if(req.params.id == null)
+      res.send("No valid id");
     database.DonationRequest.findOne({_id: req.params.id}, function(err, request) {
       if(request != null)
         request.remove(function(err){
@@ -163,6 +174,17 @@ exports.addRoutes = function(app,database) {
         });
     });
   });
+  
+  app.get('/requests/edit/:id', andRestrictToUser, function(req, res) {
+    if(req.params.id == null)
+      res.send("No valid id");
+    database.DonationRequest.findOne({_id: req.params.id}, function(err, request) {
+      if(request != null)
+      request.errors = [];
+       res.render("requests/_form", {request: request, currentCategory: "requests", donors: donors, groups:groups});
+    });
+  });
+  
   app.get('/requests/new', andRestrictToUser, function(req, res) {
     database.Group.find({}, function(err, groups){
       database.Donor.find({}, function(err, donors){
@@ -193,6 +215,8 @@ exports.addRoutes = function(app,database) {
   });
   
   app.get('/requests/:id', andRestrictToUser, function(req, res) {
+    if(req.params.id == null)
+      res.send("No valid id");
     database.DonationRequest.findOne({_id: req.params.id}).populate('donors').populate('groups').run(function(err, request) {
       if (err)
         throw err
@@ -212,6 +236,8 @@ exports.addRoutes = function(app,database) {
   });
   
   app.get('/remarks/:id', andRestrictToUser, function(req, res) {
+    if(req.params.id == null)
+      res.send("No valid id");  
     database.Remark.findOne({_id : req.params.id}, function(err, remark){
       findDonorOrGroupsFor(remark.target, function(target){
         if(target.isDonor){
