@@ -1,3 +1,6 @@
+var _ = require("underscore");
+var async = require("async");
+
 exports.addRoutes = function(app,database) {
   var findDonorOrGroupsFor = function(id, callBack){
     database.Donor.findOne({_id:id}, function(err, res){
@@ -31,18 +34,29 @@ exports.addRoutes = function(app,database) {
   
   
   app.get('/', andRestrictToUser, function(req, res) {
-    database.Remark.find({active:true}).run(function(err, remarks){
-      remarks.each(function(remark){
-        findDonorOrGroupsFor(remark.target, function(target){
-          remark.target= target;
+  
+    var requests = [], populatedRemarks = [];
+    
+    function complete(err)
+    {
+      console.dir(populatedRemarks);
+      res.render("dashboard/index", { currentCategory: "dashboard", remarks: populatedRemarks});
+    }
+  
+    database.Remark.find({active:true}).each(function(err, remark) {   
+      if (remark) {
+        requests.push(function (callback) {
+          findDonorOrGroupsFor(remark.target, function(target) {
+            remark.targetName = target.name;
+            populatedRemarks.push(remark);
+            callback();
+          });
         });
-        res.render("remarks/remark", {remark : remark});
-      });
-      //res.render("dashboard/index", { currentCategory: "dashboard", remarks: remarks});
+      }
+      else
+        async.parallel(requests, complete);
     });
   });
-
-
 
   app.get('/donors', andRestrictToUser, function(req, res) {
     database.Donor.find({}, function(err, donors) {
