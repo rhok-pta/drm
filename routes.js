@@ -23,6 +23,12 @@ exports.addRoutes = function(app,database) {
       next();
   }
   
+  var sendRequest =  function(requestId, callback) {
+    console.log("Sending a Mail -> TODO");
+    // todo sending request
+    callback();
+  }
+  
   
   app.get('/', andRestrictToUser, function(req, res) {
     database.Remark.find({active:true}, function(err, remarks){
@@ -174,12 +180,12 @@ exports.addRoutes = function(app,database) {
         data.errors = err;
         res.render("requests/_form", {request: data, currentCategory: "requests", donors: donors, groups:groups});
       }else {
-        console.dir(result);
         if(req.body.action == "Save") {
           res.redirect("/requests/" + result._id);
         }else {
-          //send message
-          console.log("send message" + result._id);
+          sendRequest( result._id, function(){
+            res.redirect("/requests/" + result._id);
+          });
         }
       }
     });
@@ -248,8 +254,6 @@ exports.addRoutes = function(app,database) {
     var credentials = req.body.user;    
     database.User.findOne({username : credentials.username}, function(err, user){
       if (!err) {
-        console.dir(req.session.user);
-        console.dir(credentials);
         if(user.password == credentials.password){
           req.session.user = user;
           res.redirect("/"); 
