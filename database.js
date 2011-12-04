@@ -62,6 +62,7 @@ var GroupSchema = new Schema({
   donors : [{type: ObjectId, ref: 'donors'}],
   remarks: [{type: ObjectId, ref: 'remarks'}],
   rules : String, // TODO: Create some format for rules
+  communicationLog : [{type: ObjectId, ref: 'posts'}],
   isDonor : {type:Boolean, default:false} // to check
 });
 exports.GroupSchema = GroupSchema;

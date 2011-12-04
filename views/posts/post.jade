@@ -1,5 +1,19 @@
 .post
-  p.date=post.date
-  p.subject=post.subject
-  p.medium=post.medium
-  p.message=post.message
+  - if(post.date != null)
+    - var year = post.date.getYear()
+    - var date=post.date.getMonth() + "/" + post.date.getDay() + "/" + ((year <1000) ? year + 1900 : year);
+  - else
+    - var date = ""
+
+  h3 
+    span=post.medium
+    span - from 
+    span=date
+    
+  p.subject
+    label Subject
+    span=post.subject
+    
+  p.message
+    label Message
+    span=post.message
