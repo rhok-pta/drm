@@ -14,18 +14,21 @@ exports.addRoutes = function(app,database) {
       }
     });
   };
+  var andRestrictToUser =  function(req, res, next) {
+    return req.session.user == undefined ? 
+      res.redirect("/login") :
+      next();
+  }
   
- 
   
   
-  
-  app.get('/', function(req, res) {
+  app.get('/', andRestrictToUser, function(req, res) {
     database.Remark.find({active:true}, function(err, remarks){
       res.render("dashboard/index", { currentCategory: "dashboard", remarks: remarks});
     });
   });
 
-  app.get('/requests', function(req, res) {
+  app.get('/requests', andRestrictToUser, function(req, res) {
     database.DonationRequest.find({}, function(err, requests) {
       res.send("WIP");
       return;
@@ -55,7 +58,6 @@ exports.addRoutes = function(app,database) {
                 }
               });
               if (found == false){
-                console.dir(receiver);
                 receiver.push(donorId);
               }
           });       
@@ -71,7 +73,7 @@ exports.addRoutes = function(app,database) {
     });
   });
 
-  app.get('/requests/:id', function(req, res) {
+  app.get('/requests/:id', andRestrictToUser, function(req, res) {
     database.DonationRequest.findOne({_id: req.params.id}).populate('donors').populate('groups').run(function(err, request) {
       if (err)
         throw err
@@ -82,19 +84,19 @@ exports.addRoutes = function(app,database) {
     });
   });
 
-  app.get('/donors', function(req, res) {
+  app.get('/donors', andRestrictToUser, function(req, res) {
     database.Donor.find({}, function(err, donors) {
       res.render("donors/index", {donors: donors, currentCategory: "donors"});
     });
   });
 
-  app.get('/donors/new', function(req, res) {
+  app.get('/donors/new', andRestrictToUser, function(req, res) {
     var donor = {};
     donor.errors = [];
     res.render("donors/_form", {donor : donor, currentCategory: "donors" });
   });
   
-  app.post('/donors/new', function(req, res) {
+  app.post('/donors/new', andRestrictToUser, function(req, res) {
     var dataOfDonor=req.body.donor;
     //toDo attach current User
     var donor = new database.Donor(dataOfDonor);
@@ -108,7 +110,7 @@ exports.addRoutes = function(app,database) {
     });     
   });
 
-  app.post('/donors/edit/:id', function(req, res) {
+  app.post('/donors/edit/:id', andRestrictToUser, function(req, res) {
     // update
     var dataOfDonor=req.body.donor;
 
@@ -140,7 +142,7 @@ exports.addRoutes = function(app,database) {
     });
   });
   
-  app.get('/donors/edit/:id', function(req, res) {
+  app.get('/donors/edit/:id', andRestrictToUser, function(req, res) {
     database.Donor.findOne({_id: req.params.id}).populate('donors').run(function(err, donor) {
       if (err)
         throw err
@@ -153,7 +155,7 @@ exports.addRoutes = function(app,database) {
     });       
   });
 
-  app.get('/donors/remove/:id', function(req, res) {
+  app.get('/donors/remove/:id', andRestrictToUser, function(req, res) {
     database.Donor.findOne({_id: req.params.id}).populate('donors').run(function(err, donor) {
       if (err)
         throw err
@@ -167,7 +169,7 @@ exports.addRoutes = function(app,database) {
     });       
   }); 
   
-  app.get('/donors/:id', function(req, res) {
+  app.get('/donors/:id', andRestrictToUser, function(req, res) {
     database.Donor.findOne({_id: req.params.id}).populate('communicationLog').run(function(err, donor) {
       if (err)
         throw err
@@ -178,13 +180,13 @@ exports.addRoutes = function(app,database) {
     });
   });
 
-  app.get('/groups', function(req, res) {
+  app.get('/groups', andRestrictToUser, function(req, res) {
     database.Group.find({}, function(err, groups) {
       res.render("groups/index", {groups: groups, currentCategory: "groups"});
     });
   });
 
-  app.get('/groups/:id', function(req, res) {
+  app.get('/groups/:id', andRestrictToUser, function(req, res) {
     database.Group.findOne({_id: req.params.id}).populate('donors').run(function(err, group) {
       if (err)
         throw err
@@ -195,7 +197,7 @@ exports.addRoutes = function(app,database) {
     });
   });
   
-  app.get('/remarks/new', function(req, res) {
+  app.get('/remarks/new', andRestrictToUser, function(req, res) {
     database.Donor.find({}, function(err, donors) {
       database.Group.find({}, function(err, groups) {
         res.render("remarks/_form", {remark: {}, currentCategory: "remind", donors : donors, groups : groups });
@@ -203,7 +205,7 @@ exports.addRoutes = function(app,database) {
     });
   });
   
-  app.get('/remarks/:id', function(req, res) {
+  app.get('/remarks/:id', andRestrictToUser, function(req, res) {
     database.Remark.findOne({_id : req.params.id}, function(err, remark){
       findDonorOrGroupsFor(remark.target, function(target){
         if(target.isDonor){
@@ -214,7 +216,7 @@ exports.addRoutes = function(app,database) {
       });      
     });
   });  
-  app.post('/remarks/new', function(req, res) {
+  app.post('/remarks/new', andRestrictToUser, function(req, res) {
     var data = req.body.remark;
     findDonorOrGroupsFor(data.target, function(target){
       var reminder = new database.Remark(data);
@@ -234,9 +236,32 @@ exports.addRoutes = function(app,database) {
     });
   });
   
-  app.get('/settings', function(req, res) {
+  app.get('/settings', andRestrictToUser, function(req, res) {
     res.render("settings",{currentCategory: "donors"});
   });
+  
+  app.get('/login',  function(req, res) {
+    res.render("login/index",{layout: 'blank.jade', currentCategory: "donors", user: {errors:[]}});
+  });
+
+  app.post('/login', function(req, res) {
+    var credentials = req.body.user;    
+    database.User.findOne({username : credentials.username}, function(err, user){
+      if (!err) {
+        console.dir(req.session.user);
+        console.dir(credentials);
+        if(user.password == credentials.password){
+          req.session.user = user;
+          res.redirect("/"); 
+          return;
+        }            
+      }
+      credentials.errors= [];
+      delete credentials.password;
+      credentials.errors.general = "Could not log in with. Wrong username/password";
+      res.render("login/index",{layout: 'blank.jade', currentCategory: "donors", user: credentials }); 
+    });
+  });  
 };
 
 
