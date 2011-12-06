@@ -10,9 +10,11 @@ var config = {port: process.env.PORT || 8080};
 var app = express.createServer();
 app.configure(function(){
   app.set('view engine', 'jade'); 
+  app.use(express.logger(':method :url :status'));
   app.use(express.bodyParser());
   app.use(express.cookieParser());
   app.use(express.query());
+  app.use(express.favicon());
   app.use(express.static(__dirname + '/public', {maxAge: 3600000}));
   app.use(express.session({
       store: new MemoryStore({

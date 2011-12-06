@@ -24,14 +24,16 @@ form(method="post", id="request-model-form")
       - for donor in donors
         - var included = false;
         - if (request.donors)
-        	- request.donors.forEach(function(mydonor){ if (mydonor == String(donor._id))  included = true; })
-            	option(value=donor._id, selected=included)= donor.name
+          - request.donors.forEach(function(mydonor){ if (mydonor == String(donor._id))  included = true; })
+            option(value=donor._id, selected=included)
+              span.name= donor.name
   p
     label Groups
     select(multiple="multiple", name="request[groups]")
       - for grp in groups
         - var included = false;
-        - request.groups.forEach(function(mygrp){ if (mygrp == String(grp._id))  included = true; })
+        - if (request.groups)
+          - request.groups.forEach(function(mygrp){ if (mygrp == String(grp._id))  included = true; })
             option(value=grp._id, selected=included) 
               span.name= grp.name
 
