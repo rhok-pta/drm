@@ -13,6 +13,15 @@ Installing
 
 Execute ```npm install -d``` in the root directory of the project. This automatically installs all the dependencies.
 
+Seeding
+-------
+
+For testing purposes the database can be seeded with values.
+
+To seed the database just run ```node seed.js```.
+
+Bug: The seeding program doesn't finish but you can kill it after it says ```Database seeded```.
+
 Running
 -------
 
