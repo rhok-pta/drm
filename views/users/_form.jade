@@ -1,8 +1,9 @@
-h2 Edit User
+h2.title Edit User
+
 form(method="post", id="user-model-form")
   p
     label Username
-    span=user.username
+    span.constant= user.username
   p
     label Name
     input(type="text", name="user[name]", value=user.name)

@@ -483,11 +483,6 @@ hr { display: none; }
 
 /* changes for DRM*/
 
-label {
-	display:inline-block;
-	width:100px;
-	font-weight:bold;
-}
 div.submenu {
 	display: block;
 	float: right;
@@ -540,20 +535,92 @@ table.display  a {
 	font-weight:bold;
 	color:#573D26;
 }
-textarea {
-  width:60%;
-  min-height:200px;
+
+p {
+	clear: left;
+	overflow: hidden;
 }
-input, select{
-  width: 200px;
+
+form p.buttons {
+	margin-left: 13em;
 }
-input, textarea, select{
-  background:#fdfbe9;
+
+form label, p label {
+	float: left;
+	width: 12em;
+	font-weight: bold;
+	text-align: right;
+	padding-right: 1em;
 }
-p.buttons input{
-  width:80px;
-  background:silver;
-  margin-right:20px;
+
+form label, form .constant {
+	line-height: 2em;
+}
+
+form input, form textarea, form select, form label, form .constant {
+	float: left;
+}
+
+input, textarea, select {
+	border: none;
+	outline: thin solid #AAA;
+	background: #fdfbe9;
+	
+	padding: 0.2em;
+	
+	box-shadow: inset 1px 1px 3px #CCC;
+	-moz-box-shadow: inset 1px 1px 3px #CCC;
+	-webkit-box-shadow: inset 1px 1px 3px #CCC;
+}
+
+input:focus, textarea:focus, select:focus {
+	border: none;
+	outline: thin solid #AAA;
+	outline-offset: 0;
+	background: #fffded;
+	
+	box-shadow: 0px 0px 5px #AAA;
+	-moz-box-shadow: 0px 0px 5px #AAA;
+	-webkit-box-shadow: 0px 0px 5px #AAA;
+}
+
+form textarea {
+	width: 30em;
+	min-height: 15em;
+}
+
+form input, form select {
+	width: 15em;
+}
+
+input[type="submit"] {
+	width: 8em;
+	margin-right: 20px;
+	line-height: 1.5em;
+	
+	outline: none;
+	border: thin solid #BBB;
+	background: #EEE;
+	
+	background: -webkit-linear-gradient(top, #EEE, #DDD);
+	background: -moz-linear-gradient(top, #EEE, #DDD);
+
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	
+	box-shadow: 1px 1px 2px #CCC;
+	-moz-box-shadow: 1px 1px 2px #CCC;
+	-webkit-box-shadow: 1px 1px 2px #CCC;
+}
+
+input[type="submit"]:active {
+	background: -webkit-linear-gradient(top, #DDD, #EEE);
+	background: -moz-linear-gradient(top, #DDD, #EEE);
+	
+	box-shadow: inset 1px 1px 2px #CCC;
+	-moz-box-shadow: inset 1px 1px 2px #CCC;
+	-webkit-box-shadow: inset 1px 1px 2px #CCC;
 }
 
 .dataTables_wrapper {
@@ -562,12 +629,31 @@ p.buttons input{
   width: 780px;
   padding-right: 10px;
   padding-bottom: 10px;
-  border-right: thin solid silver;
 }
 
-.dataTables_wrapper select, .dataTables_wrapper input{
-  width:80px;
+.dataTables_wrapper label {
+	font-weight: bold;
+	display: inline;
 }
+
+.dataTables_wrapper select, .dataTables_wrapper input {
+	margin: 0.3em;
+	display: block-inline;
+	width: 80px;
+}
+
+.dataTables_wrapper .display {
+	background: #efeddd;
+}
+
+.dataTables_info {
+	margin: 0.5em;
+}
+
+.dataTables_paginate {
+	margin: 0.2em;
+}
+
 #postForm, #reminderForm{
   display:none;
 }

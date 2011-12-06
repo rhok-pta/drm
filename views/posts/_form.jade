@@ -17,19 +17,18 @@
       p
         label Date
           - if(post.date != null)
-            - var year = post.date.getYear()
-            - var date = post.date.getMonth() + "/" + post.date.getDay() + "/" + ((year <1000) ? year + 1900 : year);
+            - var date = post.date.getMonth() + "/" + post.date.getDay() + "/" + post.date.getFullYear()
           - else
             - var date = ""
         input(type="text", name="post[date]", value=date, id="datepicker")
       p
         label Medium
-          select(name="post[medium]", value=post.medium)
-            option(value="E-Mail") E-Mail
-            option(value="Letter") Letter
-            option(value="Phone Call") Phone Call
-            option(value="Conversation") Conversation
-            option(value="Other") Other
+        select(name="post[medium]", value=post.medium)
+          option(value="E-Mail") E-Mail
+          option(value="Letter") Letter
+          option(value="Phone Call") Phone Call
+          option(value="Conversation") Conversation
+          option(value="Other") Other
       p
         label Message
         textarea(name="post[message]", value=post.message)
