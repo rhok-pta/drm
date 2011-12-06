@@ -1,9 +1,7 @@
 - if(typeof donor !== "undefined")
-  - var url = "/donors/addPost/" + donor._id
+  - var url = "/donors/" + donor._id + "/addPost"
 - else if(typeof group !== "undefined")
-  - var url = "/groups/addPost/" + group._id
-
-
+  - var url = "/groups/" + group._id + "/addPost"
 
 #addPost
   ul

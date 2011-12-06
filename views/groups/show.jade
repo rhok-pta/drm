@@ -2,9 +2,9 @@ h2.title= group.name
 .submenu
   ul
     li.edit
-      a(href="/groups/edit/" + group._id) Edit
+      a(href="/groups/" + group._id + "/edit") Edit
     li.remove
-      a.confirm(href="/groups/remove/" + group._id) Remove
+      a.confirm(href="/groups/" + group._id + "/delete") Remove
 p
   label Description
   span=group.description
@@ -17,7 +17,6 @@ h3 Donors
 table.display!= partial('donors/donor', group.donors)
 
 .clear
-
 
 #reminderMenu!= partial('remarks/_add',{remark:{}})
 

@@ -1,10 +1,8 @@
 - if(typeof donor !== "undefined")
-  - var url = "/donors/addRemark/" + donor._id
+  - var url = "/donors/" + donor._id + "/addRemark"
 - else if(typeof group !== "undefined")
-  - var url = "/groups/addRemark/" + group._id
-
-
-
+  - var url = "/groups/" + group._id + "/addRemark"
+  
 #addReminder
   ul
     li.add
