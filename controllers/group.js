@@ -1,5 +1,18 @@
 var database = require('../database.js');
 
+exports.configuration = {
+	customActions : {
+		addRemark : {
+			method : 'post',
+			suffix : '/:id/addRemark'
+		},
+		addPost : {
+			method : 'post',
+			suffix : '/:id/addPost'
+		}
+	}
+}
+
 exports.index = function (req, res) {
 	database.Group.find({}).populate('user', 'name').run(function(err, groups) {
 		res.render("groups/index", {groups: groups, currentCategory: "groups"});

@@ -1,14 +1,33 @@
 var database = require('../database.js');
 
-exports.show = function (req, res) {
+exports.configuration = {
+	customActions : {
+		settings : {
+			method: 'get',
+			path: '/settings'
+		}
+	}
+}
+
+exports.settings = function (req, res) {
 	res.render("users/user", {user: req.session.user, currentCategory: "settings"});
 };
 
-exports.edit = function (req, res) {
-	database.User.findOne({_id: req.params.id}, function (err, user) {
-		if (err || !user)
+exports.show = function (req, res) {
+	database.User.findById(req.params.id, function (err, user) {
+		if (err || !user) {
 			res.send("Could not find user: " + req.params.id);
-		else {
+		} else {
+			res.render("users/user", {user: user, currentCategory: "settings"});
+		}
+	});
+};
+
+exports.edit = function (req, res) {
+	database.User.findById(req.params.id, function (err, user) {
+		if (err || !user) {
+			res.send("Could not find user: " + req.params.id);
+		} else {
 			user.errors = [];
 			res.render("users/_form", {user : user, currentCategory: "settings"});
 		}

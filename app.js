@@ -23,9 +23,14 @@ app.configure(function(){
     secret: "asdsa"
  }));
   app.use(app.router, database);  
+  
+  app.use(function (req, res) {
+    res.render("404", {currentCategory: "none"});
+  });
 });
 
-var routes = require('./routes.js').addRoutes(app,database);
+var controllers = require('./controllers.js');
+controllers.addControllers(app);
 
 console.log("Running on port: " + config.port);
 app.listen(config.port);

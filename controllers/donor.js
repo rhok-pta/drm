@@ -1,6 +1,15 @@
 var database = require('../database.js');
 var _ = require("underscore");
 
+exports.configuration = {
+	customActions : {
+		addPost : {
+			method : 'post',
+			suffix : '/:id/addPost'
+		}
+	}
+}
+
 exports.index = function (req, res) {
 	database.Donor.find({}, function (err, donors) {
 		res.render("donors", {donors: donors, currentCategory: "donors"});
