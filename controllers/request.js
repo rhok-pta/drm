@@ -6,12 +6,40 @@ exports.index = function (req, res) {
 	});
 };
 
-exports.show = function (req, res) {
-	database.DonationRequest.findById(req.params.id).populate('donors').populate('groups').run(function (err, request) {
-		if (err || !request) {
-			res.send("Could not find request: " + req.params.id);
+exports.add = function (req, res) {
+	var request = {};
+	request.errors = [];
+	database.Group.find({}, function (err, groups) {
+		database.Donor.find({}, function (err, donors) {
+			res.render("requests/_form", {request: request, currentCategory: "requests", donors: donors, groups: groups});
+		});    
+	});
+};
+
+exports.create = function (req, res) {
+	console.dir(req.body.request);
+
+	var request = new database.DonationRequest(req.body.request);
+	// FIXME: Doesn't work : request.user = req.session.user;
+	request.save(function (err, result) {
+		if (err) {
+			console.dir(err);
+		
+			var requestData = req.body.request;
+			requestData.errors = err;
+			database.Group.find({}, function (err, groups) {
+				database.Donor.find({}, function (err, donors) {
+					res.render("requests/_form", {request: requestData, currentCategory: "requests", donors: donors, groups:groups});
+				});
+			});
 		} else {
-			res.render("requests/show", {request: request, currentCategory: "requests"});
+			if (req.body.action == "Save") {
+				res.redirect("/requests/" + result._id);
+			} else {
+				sendRequest( result._id, function () {
+					res.redirect("/requests/" + result._id);
+				});
+			}
 		}
 	});
 };
@@ -56,40 +84,12 @@ exports.update = function (req, res) {
 	});
 };
 
-exports.add = function (req, res) {
-	var request = {};
-	request.errors = [];
-	database.Group.find({}, function (err, groups) {
-		database.Donor.find({}, function (err, donors) {
-			res.render("requests/_form", {request: request, currentCategory: "requests", donors: donors, groups: groups});
-		});    
-	});
-};
-
-exports.create = function (req, res) {
-	console.dir(req.body.request);
-
-	var request = new database.DonationRequest(req.body.request);
-	// FIXME: Doesn't work : request.user = req.session.user;
-	request.save(function (err, result) {
-		if (err) {
-			console.dir(err);
-		
-			var requestData = req.body.request;
-			requestData.errors = err;
-			database.Group.find({}, function (err, groups) {
-				database.Donor.find({}, function (err, donors) {
-					res.render("requests/_form", {request: requestData, currentCategory: "requests", donors: donors, groups:groups});
-				});
-			});
+exports.show = function (req, res) {
+	database.DonationRequest.findById(req.params.id).populate('donors').populate('groups').run(function (err, request) {
+		if (err || !request) {
+			res.send("Could not find request: " + req.params.id);
 		} else {
-			if (req.body.action == "Save") {
-				res.redirect("/requests/" + result._id);
-			} else {
-				sendRequest( result._id, function () {
-					res.redirect("/requests/" + result._id);
-				});
-			}
+			res.render("requests/show", {request: request, currentCategory: "requests"});
 		}
 	});
 };
