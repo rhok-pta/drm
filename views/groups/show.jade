@@ -5,14 +5,16 @@ h2.title= group.name
       a(href="/groups/" + group._id + "/edit") Edit
     li.remove
       a.confirm(href="/groups/" + group._id + "/delete") Remove
-p
-  label Description
-  span=group.description
-p
-  label Owner
-  - if (group.user)
-    span=group.user.name
-  
+
+.details
+  .row
+    label Description
+    span=group.description
+  .row
+    label Owner
+    - if (group.user)
+      span=group.user.name
+
 h3 Donors
 table.display!= partial('donors/donor', group.donors)
 

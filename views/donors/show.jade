@@ -6,37 +6,36 @@ h2.title=donor.name
     li.remove
       a.confirm(href="/donors/" + donor._id + "/delete") Remove
 
-p
-  label E-Mail
-  span=donor.email
-p
-  label Birthday
-  - if(donor.birthday != null)
-    - var year = donor.birthday.getYear()
-    span=donor.birthday.getMonth() + "/" + donor.birthday.getDay() + "/" + ((year <1000) ? year + 1900 : year);
-
-p
-  label Street
-  span=donor.street
-p
-  label Town
-  span=donor.town
-p
-  label Zip-Code
-  span=donor.zipcode
-p
-  label Country
-  span=donor.country
-  
-p
-  label Personal Interests
-  span=donor.personalInterests
-p
-  label Phone
-  span=donor.telephone
-p
-  label Website
-  span=donor.website
+.details
+  .row
+    label E-Mail
+    span=donor.email
+  .row
+    label Birthday
+    - if(donor.birthday != null)
+      - var year = donor.birthday.getYear()
+      span=donor.birthday.getMonth() + "/" + donor.birthday.getDay() + "/" + ((year <1000) ? year + 1900 : year);
+  .row
+    label Street
+    span=donor.street
+  .row
+    label Town
+    span=donor.town
+  .row
+    label Zip-Code
+    span=donor.zipcode
+  .row
+    label Country
+    span=donor.country
+  .row
+    label Personal Interests
+    span=donor.personalInterests
+  .row
+    label Phone
+    span=donor.telephone
+  .row
+    label Website
+    span=donor.website
   
 #postsMenu!= partial('posts/_form', {post:{}})
 #posts!= partial('posts/post', communicationLog)

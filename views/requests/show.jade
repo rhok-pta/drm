@@ -6,30 +6,27 @@ h2.title= request.name
     li.remove
       a.confirm(href="/requests/" + request._id + "/delete") Remove
 
-p
-  label Subject
-  span=request.subject
+.details
+  .row
+    label Subject
+    span=request.subject
 
-p
-  label Subject
-  span=request.subject
+  .row
+    label Message
+    span.message=request.message
 
-p
-  label Message
-  span.message=request.message
+  - if(request.donors.length > 0) 
+    .row
+      label Donors
+      ul
+        - for donor in request.donors
+          li
+            a(href="/donors/" + donor._id)= donor.name
 
-- if(request.donors.length > 0) 
-  p
-    label Donors
-    ul
-      - for donor in request.donors
-        li
-          a(href="/donors/" + donor._id)= donor.name
-
-- if(request.groups.length > 0) 
-  p
-    label Groups
-    ul
-      - for group in request.groups
-        li
-          a(href="/groups/" + group._id)= group.name
+  - if(request.groups.length > 0) 
+    .row
+      label Groups
+      ul
+        - for group in request.groups
+          li
+            a(href="/groups/" + group._id)= group.name

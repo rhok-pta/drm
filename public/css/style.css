@@ -536,16 +536,30 @@ table.display  a {
 	color:#573D26;
 }
 
+.details .row {
+	clear: left;
+	overflow: hidden;
+	line-height: 200%;
+}
+
+.details ul {
+	display: block;
+	float: left;
+	padding: 0;
+	list-style: none;
+}
+
+/** Should be removed later **/
 p {
 	clear: left;
 	overflow: hidden;
 }
 
-form p.buttons {
+form .buttons {
 	margin-left: 13em;
 }
 
-form label, p label {
+form label, p label, .details label {
 	float: left;
 	width: 12em;
 	font-weight: bold;
@@ -562,8 +576,8 @@ form input, form textarea, form select, form label, form .constant {
 }
 
 input, textarea, select {
-	border: none;
-	outline: thin solid #AAA;
+	border: thin solid #AAA;
+	outline: none;
 	background: #fdfbe9;
 	
 	padding: 0.2em;
@@ -574,8 +588,8 @@ input, textarea, select {
 }
 
 input:focus, textarea:focus, select:focus {
-	border: none;
-	outline: thin solid #AAA;
+	border: thin solid #AAA;
+	outline: none;
 	outline-offset: 0;
 	background: #fffded;
 	

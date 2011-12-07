@@ -4,12 +4,13 @@ h2.title=user.name
     li.edit
       a(href="/users/" + user._id + "/edit") Edit
 
-p
-  label Username
-  span= user.username
-p
-  label Name
-  span= user.name
-p
-  label E-Mail
-  span= user.email
+.details
+  .row
+    label Username
+    span= user.username
+  .row
+    label Name
+    span= user.name
+  .row
+    label E-Mail
+    span= user.email
